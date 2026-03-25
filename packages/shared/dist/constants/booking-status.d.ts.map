@@ -1,0 +1,1 @@
+{"version":3,"file":"booking-status.d.ts","sourceRoot":"","sources":["../../src/constants/booking-status.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,aAAa;;;;;;;;;CAShB,CAAC;AAEX,MAAM,MAAM,aAAa,GAAG,CAAC,OAAO,aAAa,CAAC,CAAC,MAAM,OAAO,aAAa,CAAC,CAAC;AAE/E,eAAO,MAAM,0BAA0B,EAAE,MAAM,CAAC,aAAa,EAAE,aAAa,EAAE,CAoB3E,CAAC;AAEJ,eAAO,MAAM,gBAAgB,+GAA+B,CAAC"}

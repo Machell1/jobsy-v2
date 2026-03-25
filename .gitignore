@@ -2,8 +2,9 @@
 node_modules/
 .pnpm-store/
 
-# Build outputs
-dist/
+# Build outputs (API dist is tracked for Railway deploy)
+apps/web/.next/
+apps/api/dist/
 .next/
 .expo/
 .turbo/
