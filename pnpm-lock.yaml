@@ -185,7 +185,7 @@ importers:
         version: link:../../packages/ui
       '@stripe/react-stripe-js':
         specifier: ^3.2.0
-        version: 3.10.0(@stripe/stripe-js@5.10.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+        version: 3.10.0(@stripe/stripe-js@5.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@stripe/stripe-js':
         specifier: ^5.4.0
         version: 5.10.0
@@ -203,25 +203,25 @@ importers:
         version: 3.20.0
       next:
         specifier: ^15.1.0
-        version: 15.5.14(@opentelemetry/api@1.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+        version: 15.5.14(@opentelemetry/api@1.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react:
-        specifier: ^19.0.0
+        specifier: 19.0.0
         version: 19.0.0
       react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.0.0)
+        specifier: 19.0.0
+        version: 19.0.0(react@19.0.0)
       react-hook-form:
         specifier: ^7.54.0
         version: 7.72.0(react@19.0.0)
       sonner:
         specifier: ^1.7.0
-        version: 1.7.4(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+        version: 1.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       stream-chat:
         specifier: ^8.46.0
         version: 8.60.0
       stream-chat-react:
         specifier: ^12.6.0
-        version: 12.16.0(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)(stream-chat@8.60.0)
+        version: 12.16.0(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(stream-chat@8.60.0)
       zod:
         specifier: ^3.24.0
         version: 3.25.76
@@ -6056,6 +6056,11 @@ packages:
   react-devtools-core@6.1.5:
     resolution: {integrity: sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA==}
 
+  react-dom@19.0.0:
+    resolution: {integrity: sha512-4GV5sHFG0e/0AD4X+ySy6UJd3jVl1iNsNHdpad0qhABJ11twS3TTBnseqsKurKcsNqCEFeGL3uLpVChpIO3QfQ==}
+    peerDependencies:
+      react: ^19.0.0
+
   react-dom@19.2.4:
     resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
@@ -6368,6 +6373,9 @@ packages:
   sax@1.6.0:
     resolution: {integrity: sha512-6R3J5M4AcbtLUdZmRv2SygeVaM7IhrLXu9BmnOGmmACak8fiUtOsYNWUS4uK7upbmHIBbLBeFeI//477BKLBzA==}
     engines: {node: '>=11.0.0'}
+
+  scheduler@0.25.0:
+    resolution: {integrity: sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==}
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
@@ -9284,32 +9292,32 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
 
-  '@react-aria/focus@3.21.5(react-dom@19.2.4(react@19.0.0))(react@19.0.0)':
+  '@react-aria/focus@3.21.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@react-aria/interactions': 3.27.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
-      '@react-aria/utils': 3.33.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      '@react-aria/interactions': 3.27.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.33.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-types/shared': 3.33.1(react@19.0.0)
       '@swc/helpers': 0.5.19
       clsx: 2.1.1
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
-  '@react-aria/interactions@3.27.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)':
+  '@react-aria/interactions@3.27.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-aria/ssr': 3.9.10(react@19.0.0)
-      '@react-aria/utils': 3.33.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      '@react-aria/utils': 3.33.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-stately/flags': 3.1.2
       '@react-types/shared': 3.33.1(react@19.0.0)
       '@swc/helpers': 0.5.19
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
   '@react-aria/ssr@3.9.10(react@19.0.0)':
     dependencies:
       '@swc/helpers': 0.5.19
       react: 19.0.0
 
-  '@react-aria/utils@3.33.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)':
+  '@react-aria/utils@3.33.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-aria/ssr': 3.9.10(react@19.0.0)
       '@react-stately/flags': 3.1.2
@@ -9318,7 +9326,7 @@ snapshots:
       '@swc/helpers': 0.5.19
       clsx: 2.1.1
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
   '@react-native-community/netinfo@12.0.1(react-native@0.83.0(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.0.0))(react@19.0.0)':
     dependencies:
@@ -9552,9 +9560,7 @@ snapshots:
       metro-runtime: 0.83.5
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.83.0': {}
 
@@ -9835,12 +9841,12 @@ snapshots:
       lodash.deburr: 4.1.0
     optional: true
 
-  '@stripe/react-stripe-js@3.10.0(@stripe/stripe-js@5.10.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)':
+  '@stripe/react-stripe-js@3.10.0(@stripe/stripe-js@5.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@stripe/stripe-js': 5.10.0
       prop-types: 15.8.1
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
   '@stripe/stripe-js@5.10.0': {}
 
@@ -12930,11 +12936,11 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  linkifyjs@2.1.9(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  linkifyjs@2.1.9(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       jquery: 4.0.0
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
     optional: true
 
   linkifyjs@4.3.2: {}
@@ -13872,18 +13878,18 @@ snapshots:
 
   mkdirp@1.0.4: {}
 
-  mml-react@0.4.7(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  mml-react@0.4.7(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@braintree/sanitize-url': 6.0.4
       '@rgrove/parse-xml': 3.0.0
       '@types/linkifyjs': 2.1.7
       dayjs: 1.11.20
       ical-expander: 3.2.0
-      linkifyjs: 2.1.9(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      linkifyjs: 2.1.9(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
       react-markdown: 5.0.3(@types/react@19.2.14)(react@19.0.0)
-      react-virtuoso: 2.19.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      react-virtuoso: 2.19.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     transitivePeerDependencies:
       - '@types/react'
       - jquery
@@ -13938,14 +13944,14 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next@15.5.14(@opentelemetry/api@1.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  next@15.5.14(@opentelemetry/api@1.9.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@next/env': 15.5.14
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001781
       postcss: 8.4.31
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
       styled-jsx: 5.1.6(react@19.0.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.14
@@ -14404,10 +14410,16 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  react-dom@19.0.0(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      scheduler: 0.25.0
+
   react-dom@19.2.4(react@19.0.0):
     dependencies:
       react: 19.0.0
       scheduler: 0.27.0
+    optional: true
 
   react-dropzone@14.4.1(react@19.0.0):
     dependencies:
@@ -14605,11 +14617,11 @@ snapshots:
       react: 19.0.0
       react-fast-compare: 3.2.2
 
-  react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@popperjs/core': 2.11.8
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
       react-fast-compare: 3.2.2
       warning: 4.0.3
 
@@ -14624,12 +14636,12 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  react-virtuoso@2.19.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  react-virtuoso@2.19.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@virtuoso.dev/react-urx': 0.2.13(react@19.0.0)
       '@virtuoso.dev/urx': 0.2.13
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
   react@19.0.0: {}
 
@@ -14877,6 +14889,8 @@ snapshots:
 
   sax@1.6.0: {}
 
+  scheduler@0.25.0: {}
+
   scheduler@0.27.0: {}
 
   schema-utils@4.3.3:
@@ -15074,10 +15088,10 @@ snapshots:
 
   slugify@1.6.8: {}
 
-  sonner@1.7.4(react-dom@19.2.4(react@19.0.0))(react@19.0.0):
+  sonner@1.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
 
   source-map-js@1.2.1: {}
 
@@ -15187,11 +15201,11 @@ snapshots:
       - react-native-reanimated
       - utf-8-validate
 
-  stream-chat-react@12.16.0(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)(stream-chat@8.60.0):
+  stream-chat-react@12.16.0(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(stream-chat@8.60.0):
     dependencies:
       '@braintree/sanitize-url': 6.0.4
       '@popperjs/core': 2.11.8
-      '@react-aria/focus': 3.21.5(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      '@react-aria/focus': 3.21.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       clsx: 2.1.1
       dayjs: 1.11.20
       emoji-regex: 9.2.2
@@ -15206,15 +15220,15 @@ snapshots:
       nanoid: 3.3.11
       prop-types: 15.8.1
       react: 19.0.0
-      react-dom: 19.2.4(react@19.0.0)
+      react-dom: 19.0.0(react@19.0.0)
       react-dropzone: 14.4.1(react@19.0.0)
       react-fast-compare: 3.2.2
       react-image-gallery: 1.2.12(react@19.0.0)
       react-markdown: 9.1.0(@types/react@19.2.14)(react@19.0.0)
       react-player: 2.10.1(react@19.0.0)
-      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      react-popper: 2.3.0(@popperjs/core@2.11.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-textarea-autosize: 8.5.9(@types/react@19.2.14)(react@19.0.0)
-      react-virtuoso: 2.19.1(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      react-virtuoso: 2.19.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       remark-gfm: 4.0.1
       stream-chat: 8.60.0
       textarea-caret: 3.1.0
@@ -15224,7 +15238,7 @@ snapshots:
       use-sync-external-store: 1.6.0(react@19.0.0)
     optionalDependencies:
       '@stream-io/transliterate': 1.5.5
-      mml-react: 0.4.7(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.2.4(react@19.0.0))(react@19.0.0)
+      mml-react: 0.4.7(@types/react@19.2.14)(jquery@4.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     transitivePeerDependencies:
       - '@types/react'
       - jquery
