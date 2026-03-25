@@ -269,6 +269,9 @@ importers:
         specifier: ^6.2.0
         version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
     devDependencies:
+      '@types/node':
+        specifier: 25.5.0
+        version: 25.5.0
       prisma:
         specifier: ^6.2.0
         version: 6.19.2(typescript@5.9.3)
@@ -286,8 +289,8 @@ importers:
         version: 3.25.76
     devDependencies:
       typescript:
-        specifier: ^6.0.2
-        version: 6.0.2
+        specifier: ^5.6.0
+        version: 5.9.3
 
   packages/ui:
     dependencies:
@@ -6978,11 +6981,6 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@6.0.2:
-    resolution: {integrity: sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
@@ -9569,9 +9567,7 @@ snapshots:
       metro-runtime: 0.83.5
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.83.0': {}
 
@@ -15625,8 +15621,6 @@ snapshots:
   typedarray@0.0.6: {}
 
   typescript@5.9.3: {}
-
-  typescript@6.0.2: {}
 
   unbox-primitive@1.1.0:
     dependencies:
