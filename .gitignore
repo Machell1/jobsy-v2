@@ -45,3 +45,5 @@ apps/mobile/android/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+.vercel

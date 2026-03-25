@@ -47,17 +47,17 @@ app.get('/health', (_req, res) => {
 // Routes are lazy-imported so the server boots even if a domain is WIP.
 // ---------------------------------------------------------------------------
 const domainRoutes: Array<{ path: string; module: string }> = [
-  { path: '/api/auth', module: './domains/auth/routes' },
-  { path: '/api/users', module: './domains/users/routes' },
-  { path: '/api/services', module: './domains/services/routes' },
-  { path: '/api/bookings', module: './domains/bookings/routes' },
-  { path: '/api/payments', module: './domains/payments/routes' },
-  { path: '/api/reviews', module: './domains/reviews/routes' },
-  { path: '/api/chat', module: './domains/chat/routes' },
-  { path: '/api/notifications', module: './domains/notifications/routes' },
-  { path: '/api/media', module: './domains/media/routes' },
-  { path: '/api/locations', module: './domains/locations/routes' },
-  { path: '/api/admin', module: './domains/admin/routes' },
+  { path: '/api/auth', module: './domains/auth/auth.routes' },
+  { path: '/api/users', module: './domains/users/users.routes' },
+  { path: '/api/services', module: './domains/services/services.routes' },
+  { path: '/api/bookings', module: './domains/bookings/bookings.routes' },
+  { path: '/api/payments', module: './domains/payments/payments.routes' },
+  { path: '/api/reviews', module: './domains/reviews/reviews.routes' },
+  { path: '/api/chat', module: './domains/chat/chat.routes' },
+  { path: '/api/notifications', module: './domains/notifications/notifications.routes' },
+  { path: '/api/media', module: './domains/media/media.routes' },
+  { path: '/api/locations', module: './domains/locations/locations.routes' },
+  { path: '/api/admin', module: './domains/admin/admin.routes' },
 ];
 
 for (const route of domainRoutes) {
