@@ -1,0 +1,326 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  PROVIDER
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  passwordHash        String
+  name                String
+  phone               String?
+  role                UserRole             @default(CUSTOMER)
+  avatarUrl           String?
+  bio                 String?
+  isEmailVerified     Boolean              @default(false)
+  isActive            Boolean              @default(true)
+  verificationStatus  VerificationStatus   @default(PENDING)
+  stripeCustomerId    String?              @unique
+  stripeAccountId     String?              @unique
+  stripeOnboarded     Boolean              @default(false)
+  parish              String?
+  latitude            Float?
+  longitude           Float?
+  address             String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  services            Service[]
+  bookingsAsCustomer  Booking[]            @relation("CustomerBookings")
+  bookingsAsProvider  Booking[]            @relation("ProviderBookings")
+  reviewsGiven        Review[]             @relation("ReviewAuthor")
+  reviewsReceived     Review[]             @relation("ReviewSubject")
+  notifications       Notification[]
+  refreshTokens       RefreshToken[]
+  verificationDocs    VerificationDoc[]
+  pushTokens          PushToken[]
+  savedServices       SavedService[]
+
+  @@index([role])
+  @@index([parish])
+  @@index([email])
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model VerificationDoc {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  url       String
+  publicId  String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("verification_docs")
+}
+
+model PushToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  platform  String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("push_tokens")
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@map("password_resets")
+}
+
+model EmailVerification {
+  id        String   @id @default(uuid())
+  userId    String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, code])
+  @@map("email_verifications")
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  icon        String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  services    Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id           String    @id @default(uuid())
+  title        String
+  description  String
+  providerId   String
+  provider     User      @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  priceMin     Float
+  priceMax     Float?
+  priceCurrency String   @default("JMD")
+  priceUnit    String    @default("per_service")
+  parish       String
+  latitude     Float?
+  longitude    Float?
+  address      String?
+  tags         String[]
+  isFeatured   Boolean   @default(false)
+  isActive     Boolean   @default(true)
+  deletedAt    DateTime?
+  viewCount    Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  images       ServiceImage[]
+  bookings     Booking[]
+  reviews      Review[]
+  savedBy      SavedService[]
+
+  @@index([providerId])
+  @@index([categoryId])
+  @@index([parish])
+  @@index([isFeatured])
+  @@index([latitude, longitude])
+  @@map("services")
+}
+
+model ServiceImage {
+  id        String  @id @default(uuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String
+  sortOrder Int     @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([serviceId])
+  @@map("service_images")
+}
+
+model SavedService {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, serviceId])
+  @@map("saved_services")
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DECLINED
+  DISPUTED
+  REVIEWED
+}
+
+model Booking {
+  id              String        @id @default(uuid())
+  serviceId       String
+  service         Service       @relation(fields: [serviceId], references: [id])
+  customerId      String
+  customer        User          @relation("CustomerBookings", fields: [customerId], references: [id])
+  providerId      String
+  provider        User          @relation("ProviderBookings", fields: [providerId], references: [id])
+  status          BookingStatus @default(PENDING)
+  scheduledDate   DateTime
+  scheduledTime   String?
+  duration        Int?
+  price           Float
+  currency        String        @default("JMD")
+  notes           String?
+  locationAddress String?
+  locationLat     Float?
+  locationLng     Float?
+  cancelledBy     String?
+  cancelReason    String?
+  completedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  payment         Payment?
+  reviews         Review[]
+
+  @@index([customerId])
+  @@index([providerId])
+  @@index([serviceId])
+  @@index([status])
+  @@index([scheduledDate])
+  @@map("bookings")
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+model Payment {
+  id                    String        @id @default(uuid())
+  bookingId             String        @unique
+  booking               Booking       @relation(fields: [bookingId], references: [id])
+  stripePaymentIntentId String?       @unique
+  amount                Float
+  platformFee           Float
+  providerAmount        Float
+  currency              String        @default("JMD")
+  status                PaymentStatus @default(PENDING)
+  refundedAmount        Float?
+  paidAt                DateTime?
+  refundedAt            DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  @@index([bookingId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  bookingId  String
+  booking    Booking  @relation(fields: [bookingId], references: [id])
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
+  authorId   String
+  author     User     @relation("ReviewAuthor", fields: [authorId], references: [id])
+  subjectId  String
+  subject    User     @relation("ReviewSubject", fields: [subjectId], references: [id])
+  rating     Int
+  comment    String
+  isReported Boolean  @default(false)
+  isHidden   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([bookingId, authorId])
+  @@index([serviceId])
+  @@index([subjectId])
+  @@index([authorId])
+  @@map("reviews")
+}
+
+enum NotificationType {
+  BOOKING_REQUEST
+  BOOKING_ACCEPTED
+  BOOKING_DECLINED
+  BOOKING_CANCELLED
+  BOOKING_COMPLETED
+  PAYMENT_RECEIVED
+  REVIEW_RECEIVED
+  MESSAGE_RECEIVED
+  VERIFICATION_APPROVED
+  VERIFICATION_REJECTED
+  SYSTEM
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}

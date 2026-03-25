@@ -1,0 +1,9 @@
+{
+  "name": "@jobsy/admin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Admin is part of web app'",
+    "build": "echo 'Admin is part of web app'"
+  }
+}

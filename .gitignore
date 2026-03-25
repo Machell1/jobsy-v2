@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+.expo/
+.turbo/
+out/
+
+# Environment
+.env
+.env.local
+.env.production
+.env.development
+CREDENTIALS_VAULT.json
+*.pem
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+coverage/
+
+# Prisma
+packages/database/prisma/migrations/
+
+# Mobile
+apps/mobile/ios/
+apps/mobile/android/
+*.ipa
+*.apk
+*.aab
+
+# Misc
+*.log
+npm-debug.log*
+pnpm-debug.log*
