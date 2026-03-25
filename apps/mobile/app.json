@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Jobsy",
+    "slug": "jobsy",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "jobsy",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jobsyja.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2563EB"
+      },
+      "package": "com.jobsyja.app",
+      "versionCode": 1
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      ["expo-notifications", { "icon": "./assets/notification-icon.png" }],
+      "expo-image-picker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cb14f1f0-7c15-415d-933d-c1568904ce27"
+      },
+      "apiUrl": "https://api.jobsyja.com"
+    },
+    "owner": "Jobsy1"
+  }
+}
