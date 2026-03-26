@@ -134,9 +134,6 @@ importers:
       expo-constants:
         specifier: ^55.0.9
         version: 55.0.9(expo@55.0.8)(react-native@0.83.0(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.0.0))(typescript@5.9.3)
-      expo-image-picker:
-        specifier: ~16.0.0
-        version: 16.0.6(expo@55.0.8)
       expo-router:
         specifier: ~5.0.0
         version: 5.0.7(seppu5ufhsiwdna6q2scue3c4u)
@@ -3874,16 +3871,6 @@ packages:
       expo: '*'
       react: '*'
       react-native: '*'
-
-  expo-image-loader@5.0.0:
-    resolution: {integrity: sha512-Eg+5FHtyzv3Jjw9dHwu2pWy4xjf8fu3V0Asyy42kO+t/FbvW/vjUixpTjPtgKQLQh+2/9Nk4JjFDV6FwCnF2ZA==}
-    peerDependencies:
-      expo: '*'
-
-  expo-image-picker@16.0.6:
-    resolution: {integrity: sha512-HN4xZirFjsFDIsWFb12AZh19fRzuvZjj2ll17cGr19VNRP06S/VPQU3Tdccn5vwUzQhOBlLu704CnNm278boiQ==}
-    peerDependencies:
-      expo: '*'
 
   expo-keep-awake@55.0.4:
     resolution: {integrity: sha512-vwfdMtMS5Fxaon8gC0AiE70SpxTsHJ+rjeoVJl8kdfdbxczF7OIaVmfjFJ5Gfigd/WZiLqxhfZk34VAkXF4PNg==}
@@ -11104,15 +11091,6 @@ snapshots:
       fontfaceobserver: 2.3.0
       react: 19.0.0
       react-native: 0.83.0(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.0.0)
-
-  expo-image-loader@5.0.0(expo@55.0.8):
-    dependencies:
-      expo: 55.0.8(@babel/core@7.29.0)(@expo/dom-webview@55.0.3)(expo-router@5.0.7)(react-dom@19.2.4(react@19.0.0))(react-native@0.83.0(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.0.0))(react@19.0.0)(typescript@5.9.3)
-
-  expo-image-picker@16.0.6(expo@55.0.8):
-    dependencies:
-      expo: 55.0.8(@babel/core@7.29.0)(@expo/dom-webview@55.0.3)(expo-router@5.0.7)(react-dom@19.2.4(react@19.0.0))(react-native@0.83.0(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.0.0))(react@19.0.0)(typescript@5.9.3)
-      expo-image-loader: 5.0.0(expo@55.0.8)
 
   expo-keep-awake@55.0.4(expo@55.0.8)(react@19.0.0):
     dependencies:

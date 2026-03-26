@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jobsyja.app",
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "backgroundColor": "#2563EB"
       },
       "package": "com.jobsyja.app",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "bundler": "metro",
@@ -27,8 +27,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",
-      "expo-image-picker"
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {
