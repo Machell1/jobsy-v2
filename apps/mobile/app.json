@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Jobsy",
+    "name": "Jobsy - Service Marketplace",
     "slug": "jobsy",
     "version": "2.0.0",
     "orientation": "portrait",
@@ -35,7 +35,8 @@
       "eas": {
         "projectId": "cb14f1f0-7c15-415d-933d-c1568904ce27"
       },
-      "apiUrl": "https://api.jobsyja.com"
+      "apiUrl": "https://api.jobsyja.com",
+      "cloudinaryCloudName": "djylcabbp"
     },
     "owner": "Jobsy1"
   }
