@@ -15,13 +15,16 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "williamsmachell@gmail.com",
-        "ascAppId": "6739498940",
-        "appleTeamId": "7M4M4MG3CH"
+        "ascAppId": "6760623768",
+        "appleTeamId": "7M4M4MG3CH",
+        "ascApiKeyPath": "./AuthKey_36LFG2LBR9.p8",
+        "ascApiKeyId": "36LFG2LBR9",
+        "ascApiKeyIssuerId": "942e1253-2c7a-4216-a3cb-29364038d1e9"
       },
       "android": {
         "serviceAccountKeyPath": "./google-services.json",
-        "track": "production"
+        "track": "internal",
+        "releaseStatus": "draft"
       }
     }
   }

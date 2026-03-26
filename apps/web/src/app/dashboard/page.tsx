@@ -90,7 +90,7 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
-          Welcome back, {user?.firstName}
+          Welcome back, {user?.name?.split(' ')[0] || 'there'}
         </h1>
         <p className="mt-1 text-gray-600">
           {isProvider ? 'Manage your services and bookings' : 'Track your bookings and discover services'}

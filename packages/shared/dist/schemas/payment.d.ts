@@ -50,13 +50,13 @@ export declare const PaymentSchema: z.ZodObject<{
 }>;
 export declare const CreatePaymentIntentSchema: z.ZodObject<{
     bookingId: z.ZodString;
-    amount: z.ZodNumber;
+    amount: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     bookingId: string;
-    amount: number;
+    amount?: number | undefined;
 }, {
     bookingId: string;
-    amount: number;
+    amount?: number | undefined;
 }>;
 export declare const ConnectOnboardSchema: z.ZodObject<{}, "strip", z.ZodTypeAny, {}, {}>;
 export type Payment = z.infer<typeof PaymentSchema>;

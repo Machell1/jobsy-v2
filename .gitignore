@@ -50,3 +50,7 @@ pnpm-debug.log*
 .vercel
 .github/
 apps/mobile/dist/
+google-services.json
+*.p8
+fix-admin.*
+qa-test.js

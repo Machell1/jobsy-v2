@@ -13,9 +13,8 @@ import { apiClient, setAccessToken } from './api';
 interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  role: 'CLIENT' | 'PROVIDER' | 'ADMIN';
+  name: string;
+  role: 'CUSTOMER' | 'PROVIDER' | 'ADMIN';
   avatarUrl?: string;
 }
 
@@ -24,7 +23,7 @@ interface RegisterData {
   password: string;
   firstName: string;
   lastName: string;
-  role: 'CLIENT' | 'PROVIDER';
+  role: 'CUSTOMER' | 'PROVIDER';
 }
 
 interface AuthContextValue {
@@ -80,7 +79,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = useCallback(async (data: RegisterData) => {
     const res = await apiClient<{ user: User; accessToken: string }>('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+        name: `${data.firstName} ${data.lastName}`.trim(),
+        role: data.role,
+      }),
     });
 
     if (res.success) {

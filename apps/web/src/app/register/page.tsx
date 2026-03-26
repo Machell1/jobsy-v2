@@ -16,7 +16,7 @@ const RegisterFormSchema = z
     email: z.string().email('Invalid email address'),
     password: z.string().min(8, 'Password must be at least 8 characters').max(128),
     confirmPassword: z.string(),
-    role: z.enum(['CLIENT', 'PROVIDER'] as const),
+    role: z.enum(['CUSTOMER', 'PROVIDER'] as const),
     phone: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -30,7 +30,7 @@ export default function RegisterPage() {
   const { register: authRegister } = useAuth();
   const router = useRouter();
   const [serverError, setServerError] = useState('');
-  const [activeTab, setActiveTab] = useState<'CLIENT' | 'PROVIDER'>('CLIENT');
+  const [activeTab, setActiveTab] = useState<'CUSTOMER' | 'PROVIDER'>('CUSTOMER');
 
   const {
     register,
@@ -39,10 +39,10 @@ export default function RegisterPage() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterFormSchema),
-    defaultValues: { role: 'CLIENT' },
+    defaultValues: { role: 'CUSTOMER' },
   });
 
-  const switchTab = (role: 'CLIENT' | 'PROVIDER') => {
+  const switchTab = (role: 'CUSTOMER' | 'PROVIDER') => {
     setActiveTab(role);
     setValue('role', role);
   };
@@ -75,9 +75,9 @@ export default function RegisterPage() {
         <div className="flex rounded-lg bg-gray-100 p-1">
           <button
             type="button"
-            onClick={() => switchTab('CLIENT')}
+            onClick={() => switchTab('CUSTOMER')}
             className={`flex-1 rounded-md py-2.5 text-sm font-medium transition-colors ${
-              activeTab === 'CLIENT'
+              activeTab === 'CUSTOMER'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}

@@ -28,7 +28,7 @@ exports.PaymentSchema = zod_1.z.object({
 });
 exports.CreatePaymentIntentSchema = zod_1.z.object({
     bookingId: zod_1.z.string().uuid(),
-    amount: zod_1.z.number().positive(),
+    amount: zod_1.z.number().positive().optional(),
 });
 exports.ConnectOnboardSchema = zod_1.z.object({});
 //# sourceMappingURL=payment.js.map

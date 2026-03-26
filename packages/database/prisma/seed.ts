@@ -36,7 +36,7 @@ async function main() {
   console.log('Seeding admin user...');
   // Pre-computed bcrypt hash for "admin123456"
   // In production the admin is created via API with proper password hashing.
-  const adminPasswordHash = '$2a$12$LJ3m4ys9Rq9V5muAdQ.zPOYFCkiPnSWJKJChtE5ML/XNZ.r2J6xHK';
+  const adminPasswordHash = '$2a$12$qkQwxrq/FWrucYi/rDbN2Oi.b.hikx.GT9Kptg/RM3cRqL6lQ2V/.';
 
   await prisma.user.upsert({
     where: { email: 'admin@jobsyja.com' },

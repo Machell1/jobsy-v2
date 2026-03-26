@@ -27,7 +27,7 @@ export const PaymentSchema = z.object({
 
 export const CreatePaymentIntentSchema = z.object({
   bookingId: z.string().uuid(),
-  amount: z.number().positive(),
+  amount: z.number().positive().optional(),
 });
 
 export const ConnectOnboardSchema = z.object({});

@@ -93,7 +93,7 @@ export default function AdminUsersPage() {
           className="rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="">All Roles</option>
-          <option value="CLIENT">Customer</option>
+          <option value="CUSTOMER">Customer</option>
           <option value="PROVIDER">Provider</option>
           <option value="ADMIN">Admin</option>
         </select>

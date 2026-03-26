@@ -45,10 +45,9 @@ export function Navbar() {
                 className="flex items-center gap-2 rounded-full border border-[var(--border)] px-3 py-1.5 text-sm font-medium transition-colors hover:bg-gray-50"
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--primary)] text-xs font-bold text-white">
-                  {user.firstName[0]}
-                  {user.lastName[0]}
+                  {user.name?.split(' ').map(n => n[0]).join('').slice(0, 2) || '?'}
                 </div>
-                <span>{user.firstName}</span>
+                <span>{user.name?.split(' ')[0] || 'User'}</span>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
