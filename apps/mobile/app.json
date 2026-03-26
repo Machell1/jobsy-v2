@@ -7,11 +7,11 @@
     "icon": "./assets/icon.png",
     "scheme": "jobsy",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jobsyja.app",
-      "buildNumber": "1"
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
         "backgroundColor": "#2563EB"
       },
       "package": "com.jobsyja.app",
-      "versionCode": 1
+      "versionCode": 3
     },
     "web": {
       "bundler": "metro",
@@ -28,7 +28,6 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      ["expo-notifications", { "icon": "./assets/notification-icon.png" }],
       "expo-image-picker"
     ],
     "extra": {
