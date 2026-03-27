@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import type { Service, Category, PaginatedResponse } from '@jobsy/shared';
+import type { Service, Category } from '@jobsy/shared';
 import { DEFAULT_CATEGORIES, JAMAICA_PARISHES } from '@jobsy/shared';
 import { ServiceCard } from '@/components/ServiceCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -22,20 +22,28 @@ async function getServices(params: Record<string, string | undefined>) {
   Object.entries(params).forEach(([k, v]) => {
     if (v) query.set(k, v);
   });
+  const empty = { data: [] as ServiceWithRelations[], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
   try {
-    const res = await apiFetch<PaginatedResponse<ServiceWithRelations>>(
-      `/api/services?${query.toString()}`,
-      { next: { revalidate: 60 } }
-    );
-    return res ?? { data: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+    const res = await fetch(`${API_URL}/api/services?${query.toString()}`, {
+      headers: { 'Content-Type': 'application/json' },
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return empty;
+    const json = await res.json();
+    if (!json.success) return empty;
+    return {
+      data: (json.data ?? []) as ServiceWithRelations[],
+      pagination: json.pagination ?? empty.pagination,
+    };
   } catch {
-    return { data: [], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
+    return empty;
   }
 }
 
 async function getCategories() {
   try {
-    const res = await apiFetch<Category[]>('/api/categories', {
+    const res = await apiFetch<Category[]>('/api/services/categories', {
       next: { revalidate: 600 },
     });
     return res ?? [];

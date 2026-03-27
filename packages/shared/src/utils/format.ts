@@ -1,7 +1,8 @@
 export function formatCurrency(
-  amount: number,
+  amount: number | null | undefined,
   currency: string = "JMD"
 ): string {
+  if (amount == null) return "J$0.00";
   if (currency === "JMD") {
     return `J$${amount.toLocaleString("en-US", {
       minimumFractionDigits: 2,

@@ -74,7 +74,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
           <p className="text-sm text-gray-500">{service.provider.name}</p>
         )}
 
-        <StarRating rating={service.averageRating} count={service.totalReviews} />
+        <StarRating rating={service.averageRating ?? undefined} count={service.totalReviews ?? 0} />
 
         <div className="flex items-center justify-between pt-1">
           <span className="font-bold text-[var(--primary)]">

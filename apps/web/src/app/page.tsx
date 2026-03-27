@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
-import type { Service, Category, PaginatedResponse } from '@jobsy/shared';
+import type { Service, Category } from '@jobsy/shared';
 import { DEFAULT_CATEGORIES } from '@jobsy/shared';
 import { ServiceCard } from '@/components/ServiceCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -8,11 +8,11 @@ import { apiFetch } from '@/lib/api';
 
 async function getFeaturedServices() {
   try {
-    const res = await apiFetch<PaginatedResponse<Service & { provider?: { name: string }; category?: { name: string; slug: string } }>>(
-      '/api/services?sort=rating&limit=8',
+    const res = await apiFetch<(Service & { provider?: { name: string }; category?: { name: string; slug: string } })[]>(
+      '/api/services/featured',
       { next: { revalidate: 300 } }
     );
-    return res?.data ?? [];
+    return res ?? [];
   } catch {
     return [];
   }
@@ -21,7 +21,7 @@ async function getFeaturedServices() {
 async function getCategories() {
   try {
     const res = await apiFetch<(Category & { serviceCount?: number })[]>(
-      '/api/categories',
+      '/api/services/categories',
       { next: { revalidate: 600 } }
     );
     return res ?? [];

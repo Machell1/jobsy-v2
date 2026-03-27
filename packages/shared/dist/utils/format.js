@@ -5,6 +5,8 @@ exports.formatDate = formatDate;
 exports.formatDateTime = formatDateTime;
 exports.formatRelativeTime = formatRelativeTime;
 function formatCurrency(amount, currency = "JMD") {
+    if (amount == null)
+        return "J$0.00";
     if (currency === "JMD") {
         return `J$${amount.toLocaleString("en-US", {
             minimumFractionDigits: 2,
