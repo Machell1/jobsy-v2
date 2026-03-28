@@ -75,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const res = await apiPost<{
       user: User;
       accessToken: string;
-      refreshToken: string;
+      refreshToken?: string;
     }>("/auth/login", input);
 
     if (!res.success) {
@@ -83,7 +83,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     await setAccessToken(res.data.accessToken);
-    await setRefreshToken(res.data.refreshToken);
+    if (res.data.refreshToken) {
+      await setRefreshToken(res.data.refreshToken);
+    }
     setState({
       user: res.data.user,
       isLoading: false,
@@ -95,7 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const res = await apiPost<{
       user: User;
       accessToken: string;
-      refreshToken: string;
+      refreshToken?: string;
     }>("/auth/register", input);
 
     if (!res.success) {
@@ -103,7 +105,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     await setAccessToken(res.data.accessToken);
-    await setRefreshToken(res.data.refreshToken);
+    if (res.data.refreshToken) {
+      await setRefreshToken(res.data.refreshToken);
+    }
     setState({
       user: res.data.user,
       isLoading: false,
