@@ -1,33 +1,58 @@
 import { Tabs } from "expo-router";
+import { View, StyleSheet, Platform } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#2563EB",
-        tabBarInactiveTintColor: "#6B7280",
+        tabBarInactiveTintColor: "#9CA3AF",
         tabBarStyle: {
-          borderTopColor: "#E5E7EB",
+          position: "absolute",
+          bottom: Platform.OS === "ios" ? insets.bottom : 12,
+          left: 16,
+          right: 16,
+          height: 64,
+          borderRadius: 20,
           backgroundColor: "#FFFFFF",
-          paddingBottom: 4,
-          height: 56,
+          borderTopWidth: 0,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.08,
+          shadowRadius: 16,
+          elevation: 8,
+          paddingBottom: 0,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 8,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "500",
+          fontSize: 10,
+          fontWeight: "600",
+          marginTop: -2,
         },
-        headerStyle: { backgroundColor: "#FFFFFF" },
+        headerStyle: {
+          backgroundColor: "#FFFFFF",
+          shadowColor: "transparent",
+          elevation: 0,
+        },
         headerTintColor: "#111827",
-        headerTitleStyle: { fontWeight: "600" },
+        headerTitleStyle: { fontWeight: "700", fontSize: 17 },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={size} color={color} />
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <Feather name="home" size={22} color={color} />
+            </View>
           ),
         }}
       />
@@ -35,8 +60,10 @@ export default function TabsLayout() {
         name="search"
         options={{
           title: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="search" size={size} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <Feather name="search" size={22} color={color} />
+            </View>
           ),
         }}
       />
@@ -44,8 +71,10 @@ export default function TabsLayout() {
         name="bookings"
         options={{
           title: "Bookings",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="calendar" size={size} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <Feather name="calendar" size={22} color={color} />
+            </View>
           ),
         }}
       />
@@ -53,8 +82,10 @@ export default function TabsLayout() {
         name="messages"
         options={{
           title: "Messages",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="message-circle" size={size} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <Feather name="message-circle" size={22} color={color} />
+            </View>
           ),
         }}
       />
@@ -62,11 +93,22 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View style={focused ? styles.activeIconContainer : undefined}>
+              <Feather name="user" size={22} color={color} />
+            </View>
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  activeIconContainer: {
+    backgroundColor: "#EFF6FF",
+    borderRadius: 12,
+    padding: 6,
+    marginTop: -2,
+  },
+});

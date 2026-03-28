@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "../../src/hooks/useAuth";
 
 export default function ProfileScreen() {
@@ -89,7 +90,10 @@ export default function ProfileScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {/* Profile Header */}
-      <View style={styles.profileHeader}>
+      <LinearGradient
+        colors={["#1E40AF", "#2563EB", "#3B82F6"]}
+        style={styles.profileHeader}
+      >
         {user.avatarUrl ? (
           <Image
             source={{ uri: user.avatarUrl }}
@@ -113,7 +117,7 @@ export default function ProfileScreen() {
             <Text style={styles.locationText}>{user.parish}</Text>
           </View>
         )}
-      </View>
+      </LinearGradient>
 
       {/* Menu Items */}
       <View style={styles.menuSection}>
@@ -198,10 +202,10 @@ const styles = StyleSheet.create({
   profileHeader: {
     alignItems: "center",
     paddingVertical: 28,
+    paddingTop: 50,
     paddingHorizontal: 20,
-    backgroundColor: "#FFFFFF",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   avatar: {
     width: 80,
@@ -209,7 +213,9 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   avatarPlaceholder: {
-    backgroundColor: "#2563EB",
+    backgroundColor: "rgba(255,255,255,0.2)",
+    borderWidth: 3,
+    borderColor: "rgba(255,255,255,0.4)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -221,25 +227,25 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#111827",
+    color: "#FFFFFF",
     marginTop: 12,
   },
   userEmail: {
     fontSize: 14,
-    color: "#6B7280",
+    color: "rgba(255,255,255,0.75)",
     marginTop: 2,
   },
   roleBadge: {
     marginTop: 8,
     paddingHorizontal: 12,
     paddingVertical: 4,
-    backgroundColor: "#EFF6FF",
+    backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: 12,
   },
   roleText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#2563EB",
+    color: "#FFFFFF",
   },
   locationRow: {
     flexDirection: "row",
@@ -249,7 +255,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 13,
-    color: "#6B7280",
+    color: "rgba(255,255,255,0.75)",
   },
   menuSection: {
     backgroundColor: "#FFFFFF",
