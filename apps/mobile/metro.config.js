@@ -6,16 +6,17 @@ const monorepoRoot = path.resolve(projectRoot, "../..");
 
 const config = getDefaultConfig(projectRoot);
 
-// Watch the shared package for changes
-config.watchFolders = [monorepoRoot];
+// Merge monorepo root into watchFolders (keeping defaults)
+config.watchFolders = [...(config.watchFolders || []), monorepoRoot];
 
-// Let Metro resolve packages from the monorepo root
+// Merge monorepo node_modules into resolution paths (keeping defaults)
 config.resolver.nodeModulesPaths = [
+  ...(config.resolver.nodeModulesPaths || []),
   path.resolve(projectRoot, "node_modules"),
   path.resolve(monorepoRoot, "node_modules"),
 ];
 
-// Force Metro to resolve @jobsy/shared from source instead of dist
+// Resolve @jobsy/shared from source so Metro can bundle it directly
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === "@jobsy/shared") {
     return {
