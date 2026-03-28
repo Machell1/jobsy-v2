@@ -28,14 +28,7 @@
       "expo-router",
       "expo-secure-store",
       "expo-font",
-      "@react-native-community/datetimepicker",
-      [
-        "@stripe/stripe-react-native",
-        {
-          "merchantIdentifier": "merchant.com.jobsyja.app",
-          "enableGooglePay": true
-        }
-      ]
+      "@react-native-community/datetimepicker"
     ],
     "extra": {
       "eas": {

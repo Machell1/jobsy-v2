@@ -6,6 +6,13 @@ const footerLinks = {
     { href: '/categories', label: 'Categories' },
     { href: '/how-it-works', label: 'How It Works' },
     { href: '/pricing', label: 'Pricing' },
+    { href: '/pricing', label: 'Advertise with Jobsy' },
+  ],
+  Providers: [
+    { href: '/register?role=provider', label: 'Become a Provider' },
+    { href: '/pricing', label: 'Provider Plans' },
+    { href: '/dashboard', label: 'Provider Dashboard' },
+    { href: '/help', label: 'Provider Help' },
   ],
   Company: [
     { href: '/about', label: 'About Us' },
@@ -25,7 +32,7 @@ export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="text-2xl font-bold text-[var(--primary)]">

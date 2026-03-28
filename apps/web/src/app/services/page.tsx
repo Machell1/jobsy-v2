@@ -4,6 +4,7 @@ import type { Service, Category } from '@jobsy/shared';
 import { ServiceCard } from '@/components/ServiceCard';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { AdBanner } from '@/components/AdBanner';
 import { apiFetch } from '@/lib/api';
 
 export const metadata = {
@@ -117,6 +118,7 @@ async function ServiceResults({ searchParams }: { searchParams: Record<string, s
 
       {/* Results */}
       <div className="flex-1 min-w-0">
+        <AdBanner slot="0987654321" className="mb-5" />
         <div className="mb-5 flex items-center justify-between">
           <p className="text-sm text-gray-500">
             {pagination.total > 0

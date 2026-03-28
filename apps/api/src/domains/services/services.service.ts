@@ -32,7 +32,19 @@ export async function listServices(filters: ListServicesFilters) {
   };
 
   if (category) {
-    where.categoryId = category;
+    // If the category param looks like a UUID, use it directly; otherwise look up by slug
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (uuidRegex.test(category)) {
+      where.categoryId = category;
+    } else {
+      const cat = await prisma.category.findUnique({ where: { slug: category } });
+      if (cat) {
+        where.categoryId = cat.id;
+      } else {
+        // No matching category — return empty results
+        where.categoryId = 'no-match';
+      }
+    }
   }
 
   if (parish) {
@@ -74,7 +86,18 @@ export async function listServices(filters: ListServicesFilters) {
     prisma.service.count({ where }),
   ]);
 
-  const data = services.map((service) => {
+  // Fetch active promoted service IDs for boosting
+  const now = new Date();
+  const promotedIds = new Set(
+    (
+      await prisma.promotedListing.findMany({
+        where: { isActive: true, endsAt: { gt: now } },
+        select: { serviceId: true },
+      })
+    ).map((p) => p.serviceId),
+  );
+
+  const mapped = services.map((service) => {
     const { reviews, ...rest } = service;
     const avgRating =
       reviews.length > 0
@@ -84,8 +107,15 @@ export async function listServices(filters: ListServicesFilters) {
       ...rest,
       averageRating: avgRating,
       reviewCount: reviews.length,
+      isPromoted: promotedIds.has(service.id),
     };
   });
+
+  // Promoted listings always float to the top
+  const data = [
+    ...mapped.filter((s) => s.isPromoted),
+    ...mapped.filter((s) => !s.isPromoted),
+  ];
 
   return {
     data,

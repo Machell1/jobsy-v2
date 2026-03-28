@@ -4,6 +4,7 @@ import type { Service, Category } from '@jobsy/shared';
 import { DEFAULT_CATEGORIES, JAMAICA_PARISHES } from '@jobsy/shared';
 import { ServiceCard } from '@/components/ServiceCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { AdBanner } from '@/components/AdBanner';
 import { apiFetch } from '@/lib/api';
 
 async function getFeaturedServices() {
@@ -303,11 +304,11 @@ function TrustSection() {
     {
       icon: (
         <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><path d="M1 10h22"/>
+          <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7m0 0H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
         </svg>
       ),
-      title: 'Secure Payments',
-      desc: 'Pay safely online. Funds are held until the job is complete.',
+      title: '100% Free to Use',
+      desc: 'No fees, no commissions. Book any service on Jobsy at zero cost.',
     },
     {
       icon: (
@@ -380,6 +381,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <TrustSection />
+      <AdBanner slot="1234567890" className="mx-auto max-w-7xl px-4 py-2" />
       <Suspense fallback={<div className="py-20 flex justify-center"><LoadingSpinner size="lg" /></div>}>
         <FeaturedServicesSection />
       </Suspense>

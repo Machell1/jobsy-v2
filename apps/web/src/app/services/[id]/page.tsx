@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import type { Service, Review, User, Category, PaginatedResponse } from '@jobsy/shared';
 import { formatCurrency, formatDate } from '@jobsy/shared';
 import { apiFetch } from '@/lib/api';
+import { AdBanner } from '@/components/AdBanner';
+import { AffiliateWidget } from '@/components/AffiliateWidget';
 
 type ServiceDetail = Service & {
   provider?: User;
@@ -290,9 +292,15 @@ export default async function ServiceDetailPage({
               </Link>
 
               <p className="mt-3 text-center text-xs text-gray-500">
-                Free cancellation up to 24 hours before
+                Free to book — no payment required upfront
               </p>
             </div>
+
+            {/* Ad banner */}
+            <AdBanner slot="1122334455" />
+
+            {/* Affiliate widget */}
+            <AffiliateWidget affiliateCode="service-detail" />
 
             {/* Provider card */}
             {service.provider && (

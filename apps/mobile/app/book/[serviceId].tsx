@@ -52,16 +52,13 @@ export default function BookServiceScreen() {
       }
       return res.data;
     },
-    onSuccess: (booking) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      router.replace({
-        pathname: "/checkout/[bookingId]",
-        params: {
-          bookingId: booking.id,
-          amount: String(Math.round((service?.priceMin ?? 0) * 100)),
-          currency: service?.priceCurrency ?? "JMD",
-        },
-      });
+      Alert.alert(
+        "Booking Request Sent!",
+        "The provider will review your request and confirm shortly. No payment required.",
+        [{ text: "View My Bookings", onPress: () => router.replace("/(tabs)/bookings") }]
+      );
     },
     onError: (error: Error) => {
       Alert.alert("Booking Failed", error.message);
@@ -230,7 +227,7 @@ export default function BookServiceScreen() {
           {bookingMutation.isPending ? (
             <ActivityIndicator color="#FFFFFF" size="small" />
           ) : (
-            <Text style={styles.confirmButtonText}>Confirm Booking</Text>
+            <Text style={styles.confirmButtonText}>Send Booking Request — Free</Text>
           )}
         </TouchableOpacity>
       </View>

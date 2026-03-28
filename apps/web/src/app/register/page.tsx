@@ -68,7 +68,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900">Create your account</h1>
-          <p className="mt-2 text-gray-600">Join Jobsy today</p>
+          <p className="mt-2 text-gray-600">Join Jobsy today — it&apos;s completely free</p>
         </div>
 
         {/* Role Tabs */}

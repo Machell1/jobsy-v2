@@ -30,7 +30,8 @@ export default function AboutPage() {
         <p className="mt-4 text-gray-700 leading-relaxed">
           Our mission is to empower local service providers by giving them a digital storefront
           to showcase their skills, while giving customers peace of mind through verified
-          profiles, honest reviews, and secure payments.
+          profiles and honest reviews. Jobsy is completely free to use — no commissions,
+          no platform fees, no payment required to book. Providers keep 100% of what they earn.
         </p>
       </section>
 
@@ -44,7 +45,7 @@ export default function AboutPage() {
               items: [
                 'Browse services by category or location',
                 'Compare providers based on reviews and pricing',
-                'Book and pay securely through the platform',
+                'Send booking requests for free — no payment upfront',
                 'Leave reviews to help the community',
               ],
             },

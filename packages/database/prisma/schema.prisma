@@ -51,6 +51,9 @@ model User {
   verificationDocs    VerificationDoc[]
   pushTokens          PushToken[]
   savedServices       SavedService[]
+  promotedListings    PromotedListing[]
+  subscription        ProviderSubscription?
+  adCampaigns         AdCampaign[]
 
   @@index([role])
   @@index([parish])
@@ -157,10 +160,11 @@ model Service {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  images       ServiceImage[]
-  bookings     Booking[]
-  reviews      Review[]
-  savedBy      SavedService[]
+  images           ServiceImage[]
+  bookings         Booking[]
+  reviews          Review[]
+  savedBy          SavedService[]
+  promotedListing  PromotedListing?
 
   @@index([providerId])
   @@index([categoryId])
@@ -323,4 +327,52 @@ model Notification {
   @@index([userId, isRead])
   @@index([createdAt])
   @@map("notifications")
+}
+
+model PromotedListing {
+  id         String   @id @default(uuid())
+  serviceId  String   @unique
+  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  providerId String
+  provider   User     @relation(fields: [providerId], references: [id])
+  startsAt   DateTime
+  endsAt     DateTime
+  isActive   Boolean  @default(true)
+  planType   String   @default("basic")
+  createdAt  DateTime @default(now())
+
+  @@index([isActive, endsAt])
+  @@map("promoted_listings")
+}
+
+model ProviderSubscription {
+  id               String    @id @default(uuid())
+  providerId       String    @unique
+  provider         User      @relation(fields: [providerId], references: [id])
+  plan             String
+  status           String    @default("active")
+  currentPeriodEnd DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("provider_subscriptions")
+}
+
+model AdCampaign {
+  id         String   @id @default(uuid())
+  providerId String
+  provider   User     @relation(fields: [providerId], references: [id])
+  title      String
+  targetUrl  String
+  impressions Int     @default(0)
+  clicks     Int      @default(0)
+  budget     Float    @default(0)
+  spent      Float    @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([providerId])
+  @@index([isActive])
+  @@map("ad_campaigns")
 }

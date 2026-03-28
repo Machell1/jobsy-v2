@@ -58,6 +58,7 @@ const domainRoutes: Array<{ path: string; module: string }> = [
   { path: '/api/media', module: './domains/media/media.routes' },
   { path: '/api/locations', module: './domains/locations/locations.routes' },
   { path: '/api/admin', module: './domains/admin/admin.routes' },
+  { path: '/api/ads', module: './domains/ads/ads.routes' },
 ];
 
 for (const route of domainRoutes) {
