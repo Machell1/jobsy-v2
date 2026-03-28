@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 import type { ApiResponse } from "@jobsy/shared";
 
 const API_URL =
-  Constants.expoConfig?.extra?.apiUrl ?? "https://api.jobsyja.com";
+  (Constants.expoConfig?.extra?.apiUrl ?? "https://api.jobsyja.com") + "/api";
 
 const TOKEN_KEY = "jobsy_access_token";
 const REFRESH_TOKEN_KEY = "jobsy_refresh_token";

@@ -43,7 +43,7 @@ export default function HomeScreen() {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await apiGet<Category[]>("/categories");
+      const res = await apiGet<Category[]>("/services/categories");
       return res.success ? res.data : [];
     },
   });
