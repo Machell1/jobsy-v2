@@ -6,6 +6,7 @@ interface AdBannerProps {
   slot: string;
   format?: 'auto' | 'rectangle' | 'horizontal';
   className?: string;
+  placement?: string;
 }
 
 declare global {
@@ -14,7 +15,7 @@ declare global {
   }
 }
 
-export function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProps) {
+export function AdBanner({ slot, format = 'auto', className = '', placement }: AdBannerProps) {
   const adRef = useRef<HTMLModElement>(null);
   const pushed = useRef(false);
 
@@ -30,15 +31,18 @@ export function AdBanner({ slot, format = 'auto', className = '' }: AdBannerProp
 
   return (
     <div className={`overflow-hidden ${className}`}>
-      <ins
-        ref={adRef}
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-PLACEHOLDER"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
-      />
+      <p className="mb-1 text-[10px] uppercase tracking-widest text-gray-400">Advertisement</p>
+      <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 text-center min-h-[90px] flex items-center justify-center">
+        <ins
+          ref={adRef}
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-PLACEHOLDER"
+          data-ad-slot={slot}
+          data-ad-format={format}
+          data-full-width-responsive="true"
+        />
+      </div>
     </div>
   );
 }

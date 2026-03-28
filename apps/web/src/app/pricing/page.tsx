@@ -29,16 +29,16 @@ const plans = [
     price: 'J$1,500',
     period: '/month',
     description: 'For serious providers ready to scale their client base.',
-    cta: 'Upgrade to Pro',
-    ctaHref: '/register?plan=pro',
+    cta: 'Contact us to subscribe',
+    ctaHref: 'mailto:admin@jobsyja.com?subject=Jobsy%20Pro%20Subscription',
     highlight: true,
     features: [
       'Unlimited service listings',
-      'Promoted listing badge',
       'Priority placement in search',
-      'Priority customer support',
-      'Advanced profile customisation',
+      'Pro badge on your profile',
       'Booking analytics dashboard',
+      'Advanced profile customisation',
+      'Priority customer support',
       'Everything in Free',
     ],
   },
@@ -47,16 +47,16 @@ const plans = [
     price: 'J$3,500',
     period: '/month',
     description: 'Maximum visibility for established providers and teams.',
-    cta: 'Go Business',
-    ctaHref: '/register?plan=business',
+    cta: 'Contact us to subscribe',
+    ctaHref: 'mailto:admin@jobsyja.com?subject=Jobsy%20Business%20Subscription',
     highlight: false,
     features: [
-      'Featured homepage placement',
+      'Promoted listings (homepage spotlight)',
+      'Featured placement at top of search',
+      'Verified badge on profile',
       'Ad campaign dashboard',
-      'Full performance analytics',
-      'Multiple team members',
+      'Full analytics & reporting',
       'Dedicated account manager',
-      'Custom profile banner',
       'Everything in Pro',
     ],
   },
@@ -125,7 +125,7 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link
+              <a
                 href={plan.ctaHref}
                 className={`mt-8 block rounded-xl py-3 text-center text-sm font-semibold transition-opacity ${
                   plan.highlight
@@ -134,7 +134,7 @@ export default function PricingPage() {
                 }`}
               >
                 {plan.cta}
-              </Link>
+              </a>
             </div>
           ))}
         </div>

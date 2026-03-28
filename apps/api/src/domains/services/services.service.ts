@@ -91,7 +91,7 @@ export async function listServices(filters: ListServicesFilters) {
   const promotedIds = new Set(
     (
       await prisma.promotedListing.findMany({
-        where: { isActive: true, endsAt: { gt: now } },
+        where: { isActive: true, expiresAt: { gt: now } },
         select: { serviceId: true },
       })
     ).map((p) => p.serviceId),

@@ -51,9 +51,8 @@ model User {
   verificationDocs    VerificationDoc[]
   pushTokens          PushToken[]
   savedServices       SavedService[]
-  promotedListings    PromotedListing[]
-  subscription        ProviderSubscription?
-  adCampaigns         AdCampaign[]
+  promotedListings     PromotedListing[]
+  subscription         ProviderSubscription?
 
   @@index([role])
   @@index([parish])
@@ -164,7 +163,7 @@ model Service {
   bookings         Booking[]
   reviews          Review[]
   savedBy          SavedService[]
-  promotedListing  PromotedListing?
+  promotedListings PromotedListing[]
 
   @@index([providerId])
   @@index([categoryId])
@@ -330,49 +329,52 @@ model Notification {
 }
 
 model PromotedListing {
-  id         String   @id @default(uuid())
-  serviceId  String   @unique
-  service    Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  providerId String
-  provider   User     @relation(fields: [providerId], references: [id])
-  startsAt   DateTime
-  endsAt     DateTime
-  isActive   Boolean  @default(true)
-  planType   String   @default("basic")
-  createdAt  DateTime @default(now())
+  id          String   @id @default(uuid())
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  providerId  String
+  provider    User     @relation(fields: [providerId], references: [id])
+  tier        String
+  startsAt    DateTime
+  expiresAt   DateTime
+  isActive    Boolean  @default(true)
+  amountPaid  Float
+  paymentRef  String?
+  createdAt   DateTime @default(now())
 
-  @@index([isActive, endsAt])
+  @@index([isActive, expiresAt])
   @@map("promoted_listings")
 }
 
 model ProviderSubscription {
-  id               String    @id @default(uuid())
-  providerId       String    @unique
-  provider         User      @relation(fields: [providerId], references: [id])
-  plan             String
-  status           String    @default("active")
-  currentPeriodEnd DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  id         String    @id @default(uuid())
+  userId     String    @unique
+  user       User      @relation(fields: [userId], references: [id])
+  plan       String    @default("free")
+  startsAt   DateTime  @default(now())
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  amountPaid Float?
+  paymentRef String?
+  createdAt  DateTime  @default(now())
 
   @@map("provider_subscriptions")
 }
 
 model AdCampaign {
-  id         String   @id @default(uuid())
-  providerId String
-  provider   User     @relation(fields: [providerId], references: [id])
-  title      String
-  targetUrl  String
-  impressions Int     @default(0)
-  clicks     Int      @default(0)
-  budget     Float    @default(0)
-  spent      Float    @default(0)
-  isActive   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  advertiser  String
+  imageUrl    String?
+  linkUrl     String
+  placement   String
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  startsAt    DateTime
+  expiresAt   DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
 
-  @@index([providerId])
-  @@index([isActive])
+  @@index([placement, isActive])
   @@map("ad_campaigns")
 }

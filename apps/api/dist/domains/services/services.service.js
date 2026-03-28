@@ -72,7 +72,7 @@ async function listServices(filters) {
     // Fetch active promoted service IDs for boosting
     const now = new Date();
     const promotedIds = new Set((await database_1.prisma.promotedListing.findMany({
-        where: { isActive: true, endsAt: { gt: now } },
+        where: { isActive: true, expiresAt: { gt: now } },
         select: { serviceId: true },
     })).map((p) => p.serviceId));
     const mapped = services.map((service) => {

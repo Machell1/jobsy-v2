@@ -1,8 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import * as service from './ads.service';
 
+export async function getSubscriptionPlans(
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    res.json({ success: true, data: service.SUBSCRIPTION_PLANS });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function getPromotedListings(
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction,
 ) {
@@ -20,7 +32,7 @@ export async function createPromotedListing(
   next: NextFunction,
 ) {
   try {
-    const { serviceId, planType = 'basic', durationDays = 30 } = req.body;
+    const { serviceId, tier = 'basic', durationDays = 30, amountPaid = 0, paymentRef } = req.body;
     if (!serviceId) {
       res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: 'serviceId is required' } });
       return;
@@ -28,8 +40,10 @@ export async function createPromotedListing(
     const data = await service.createPromotedListing(
       req.user!.userId,
       serviceId,
-      planType,
+      tier,
       Number(durationDays),
+      Number(amountPaid),
+      paymentRef,
     );
     res.status(201).json({ success: true, data });
   } catch (err) {
@@ -56,41 +70,53 @@ export async function upsertSubscription(
   next: NextFunction,
 ) {
   try {
-    const { plan } = req.body;
+    const { plan, amountPaid, paymentRef } = req.body;
     if (!plan || !['free', 'pro', 'business'].includes(plan)) {
       res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: 'plan must be free, pro, or business' } });
       return;
     }
-    const data = await service.upsertSubscription(req.user!.userId, plan);
+    const data = await service.upsertSubscription(req.user!.userId, plan, amountPaid, paymentRef);
     res.json({ success: true, data });
   } catch (err) {
     next(err);
   }
 }
 
-export async function trackClick(
+export async function getBanners(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const { affiliateCode, targetUrl, source } = req.body;
-    const providerId = req.body.providerId as string | undefined;
-    const data = await service.trackClick(providerId, affiliateCode, targetUrl ?? '', source);
+    const placement = (req.query.placement as string) || 'homepage_banner';
+    const data = await service.getBanners(placement);
     res.json({ success: true, data });
   } catch (err) {
     next(err);
   }
 }
 
-export async function getCampaigns(
+export async function recordImpression(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const data = await service.getCampaigns(req.user!.userId);
-    res.json({ success: true, data });
+    await service.recordImpression(req.params.id as string);
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function recordClick(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    await service.recordClick(req.params.id as string);
+    res.json({ success: true });
   } catch (err) {
     next(err);
   }
@@ -102,12 +128,16 @@ export async function createCampaign(
   next: NextFunction,
 ) {
   try {
-    const { title, targetUrl, budget = 0 } = req.body;
-    if (!title || !targetUrl) {
-      res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: 'title and targetUrl are required' } });
+    const { name, advertiser, imageUrl, linkUrl, placement, startsAt, expiresAt } = req.body;
+    if (!name || !advertiser || !linkUrl || !placement || !startsAt || !expiresAt) {
+      res.status(400).json({ success: false, error: { code: 'BAD_REQUEST', message: 'name, advertiser, linkUrl, placement, startsAt, expiresAt are required' } });
       return;
     }
-    const data = await service.createCampaign(req.user!.userId, title, targetUrl, Number(budget));
+    const data = await service.createCampaign({
+      name, advertiser, imageUrl, linkUrl, placement,
+      startsAt: new Date(startsAt),
+      expiresAt: new Date(expiresAt),
+    });
     res.status(201).json({ success: true, data });
   } catch (err) {
     next(err);

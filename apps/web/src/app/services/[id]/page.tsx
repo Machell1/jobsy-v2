@@ -300,7 +300,7 @@ export default async function ServiceDetailPage({
             <AdBanner slot="1122334455" />
 
             {/* Affiliate widget */}
-            <AffiliateWidget affiliateCode="service-detail" />
+            <AffiliateWidget />
 
             {/* Provider card */}
             {service.provider && (

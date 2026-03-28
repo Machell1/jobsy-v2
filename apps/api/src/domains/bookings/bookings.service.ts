@@ -60,6 +60,17 @@ export async function createBooking(
     },
   });
 
+  // Auto-create BOOKING_REQUEST notification for the provider
+  prisma.notification.create({
+    data: {
+      userId: service.providerId,
+      type: 'BOOKING_REQUEST',
+      title: 'New Booking Request',
+      body: `You have a new booking request for ${service.title}`,
+      data: { bookingId: booking.id, serviceId: service.id },
+    },
+  }).catch(() => {});
+
   return booking;
 }
 
@@ -194,6 +205,19 @@ export async function updateStatus(
       provider: { select: { id: true, name: true, avatarUrl: true } },
     },
   });
+
+  // Auto-create BOOKING_ACCEPTED notification for the customer
+  if (newStatus === 'ACCEPTED') {
+    prisma.notification.create({
+      data: {
+        userId: booking.customerId,
+        type: 'BOOKING_ACCEPTED',
+        title: 'Booking Accepted',
+        body: `Your booking has been accepted by ${updated.provider?.name ?? 'the provider'}`,
+        data: { bookingId: booking.id, serviceId: booking.serviceId },
+      },
+    }).catch(() => {});
+  }
 
   return updated;
 }
