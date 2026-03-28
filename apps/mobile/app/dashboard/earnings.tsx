@@ -35,7 +35,7 @@ export default function EarningsScreen() {
   } = useQuery({
     queryKey: ["earnings-summary"],
     queryFn: async () => {
-      const res = await apiGet<EarningsSummary>("/provider/earnings/summary");
+      const res = await apiGet<EarningsSummary>("/users/dashboard");
       if (res.success) return res.data;
       return {
         totalEarnings: 0,
@@ -49,7 +49,7 @@ export default function EarningsScreen() {
   const { data: payouts } = useQuery({
     queryKey: ["payouts"],
     queryFn: async () => {
-      const res = await apiGet<PayoutRecord[]>("/provider/payouts?limit=20");
+      const res = await apiGet<PayoutRecord[]>("/bookings?status=COMPLETED&limit=20");
       return res.success ? res.data : [];
     },
   });

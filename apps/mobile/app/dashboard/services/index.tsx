@@ -14,23 +14,26 @@ import { useRouter, Stack } from "expo-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Feather } from "@expo/vector-icons";
 import { apiGet, apiDelete } from "../../../src/lib/api";
+import { useAuth } from "../../../src/hooks/useAuth";
 import { queryClient } from "../../../src/lib/query-client";
 import type { Service } from "@jobsy/shared";
 import { formatCurrency } from "@jobsy/shared";
 
 export default function ManageServicesScreen() {
   const router = useRouter();
+  const { user } = useAuth();
 
   const {
     data: services,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-services"],
+    queryKey: ["my-services", user?.id],
     queryFn: async () => {
-      const res = await apiGet<Service[]>("/provider/services");
+      const res = await apiGet<Service[]>(`/users/${user!.id}/services`);
       return res.success ? res.data : [];
     },
+    enabled: !!user?.id,
   });
 
   const deleteMutation = useMutation({
@@ -110,7 +113,7 @@ export default function ManageServicesScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => {}}
+          onPress={() => router.push(`/dashboard/services/new?editId=${item.id}`)}
         >
           <Feather name="edit-2" size={16} color="#2563EB" />
           <Text style={[styles.actionText, { color: "#2563EB" }]}>Edit</Text>

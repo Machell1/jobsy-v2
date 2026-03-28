@@ -37,7 +37,7 @@ export default function ServiceDetailScreen() {
   const { data: provider } = useQuery({
     queryKey: ["provider", service?.providerId],
     queryFn: async () => {
-      const res = await apiGet<User>(`/users/${service!.providerId}`);
+      const res = await apiGet<User>(`/users/${service?.providerId}`);
       return res.success ? res.data : null;
     },
     enabled: !!service?.providerId,
@@ -46,7 +46,7 @@ export default function ServiceDetailScreen() {
   const { data: reviews } = useQuery({
     queryKey: ["reviews", id],
     queryFn: async () => {
-      const res = await apiGet<Review[]>(`/services/${id}/reviews?limit=5`);
+      const res = await apiGet<Review[]>(`/reviews/service/${id}?limit=5`);
       return res.success ? res.data : [];
     },
     enabled: !!id,

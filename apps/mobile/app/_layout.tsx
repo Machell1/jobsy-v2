@@ -38,6 +38,18 @@ export default function RootLayout() {
             name="dashboard"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="edit-profile"
+            options={{ title: "Edit Profile" }}
+          />
+          <Stack.Screen
+            name="settings"
+            options={{ title: "Settings" }}
+          />
+          <Stack.Screen
+            name="help"
+            options={{ title: "Help & Support" }}
+          />
         </Stack>
       </AuthProvider>
     </QueryClientProvider>

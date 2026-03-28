@@ -14,7 +14,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { Feather } from "@expo/vector-icons";
 import { apiGet } from "../../src/lib/api";
-import type { Service, Category, PaginatedResponse } from "@jobsy/shared";
+import type { Service, Category } from "@jobsy/shared";
 import { formatCurrency, DEFAULT_CATEGORIES } from "@jobsy/shared";
 
 export default function SearchScreen() {

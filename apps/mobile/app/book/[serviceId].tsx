@@ -13,19 +13,26 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Feather } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { apiGet, apiPost } from "../../src/lib/api";
 import { useAuth } from "../../src/hooks/useAuth";
 import { queryClient } from "../../src/lib/query-client";
 import type { Service, Booking, CreateBookingInput } from "@jobsy/shared";
-import { formatCurrency } from "@jobsy/shared";
+import { formatCurrency, formatDate } from "@jobsy/shared";
 
 export default function BookServiceScreen() {
   const { serviceId } = useLocalSearchParams<{ serviceId: string }>();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
 
-  const [scheduledDate, setScheduledDate] = useState("");
-  const [scheduledTime, setScheduledTime] = useState("");
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(9, 0, 0, 0);
+
+  const [selectedDate, setSelectedDate] = useState(tomorrow);
+  const [selectedTime, setSelectedTime] = useState(tomorrow);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [notes, setNotes] = useState("");
 
   const { data: service, isLoading } = useQuery({
@@ -86,21 +93,21 @@ export default function BookServiceScreen() {
   }
 
   const handleConfirm = () => {
-    if (!scheduledDate) {
-      Alert.alert("Required", "Please select a date for your booking.");
+    if (selectedDate <= new Date()) {
+      Alert.alert("Invalid Date", "Please select a future date.");
       return;
     }
 
-    const dateObj = new Date(scheduledDate);
-    if (isNaN(dateObj.getTime())) {
-      Alert.alert("Invalid Date", "Please enter a valid date (YYYY-MM-DD).");
-      return;
-    }
+    const timeStr = selectedTime.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
 
     const input: CreateBookingInput = {
       serviceId: service.id,
-      scheduledDate: dateObj,
-      scheduledTime: scheduledTime || undefined,
+      scheduledDate: selectedDate,
+      scheduledTime: timeStr,
       notes: notes || undefined,
     };
 
@@ -133,23 +140,52 @@ export default function BookServiceScreen() {
           <Text style={styles.formTitle}>Booking Details</Text>
 
           <Text style={styles.label}>Date *</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="YYYY-MM-DD"
-            placeholderTextColor="#9CA3AF"
-            value={scheduledDate}
-            onChangeText={setScheduledDate}
-            keyboardType={Platform.OS === "ios" ? "default" : "default"}
-          />
+          <TouchableOpacity
+            style={styles.pickerButton}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Feather name="calendar" size={18} color="#6B7280" />
+            <Text style={styles.pickerText}>{formatDate(selectedDate)}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={selectedDate}
+              mode="date"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              minimumDate={new Date()}
+              onChange={(_, date) => {
+                setShowDatePicker(Platform.OS === "ios");
+                if (date) setSelectedDate(date);
+              }}
+            />
+          )}
 
           <Text style={styles.label}>Preferred Time</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="e.g. 10:00 AM"
-            placeholderTextColor="#9CA3AF"
-            value={scheduledTime}
-            onChangeText={setScheduledTime}
-          />
+          <TouchableOpacity
+            style={styles.pickerButton}
+            onPress={() => setShowTimePicker(true)}
+          >
+            <Feather name="clock" size={18} color="#6B7280" />
+            <Text style={styles.pickerText}>
+              {selectedTime.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
+            </Text>
+          </TouchableOpacity>
+          {showTimePicker && (
+            <DateTimePicker
+              value={selectedTime}
+              mode="time"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              minuteInterval={15}
+              onChange={(_, time) => {
+                setShowTimePicker(Platform.OS === "ios");
+                if (time) setSelectedTime(time);
+              }}
+            />
+          )}
 
           <Text style={styles.label}>Notes</Text>
           <TextInput
@@ -299,6 +335,21 @@ const styles = StyleSheet.create({
   textArea: {
     height: 100,
     paddingTop: 12,
+  },
+  pickerButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: "#F9FAFB",
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  pickerText: {
+    fontSize: 15,
+    color: "#111827",
   },
   summaryCard: {
     backgroundColor: "#FFFFFF",

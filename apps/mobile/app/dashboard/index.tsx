@@ -52,7 +52,7 @@ export default function DashboardScreen() {
   } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: async () => {
-      const res = await apiGet<DashboardStats>("/provider/dashboard/stats");
+      const res = await apiGet<DashboardStats>("/users/dashboard");
       if (res.success) return res.data;
       return {
         totalBookings: 0,
@@ -67,7 +67,7 @@ export default function DashboardScreen() {
     queryKey: ["dashboard-recent-bookings"],
     queryFn: async () => {
       const res = await apiGet<Booking[]>(
-        "/bookings?role=provider&limit=5&sort=newest"
+        "/bookings?limit=5"
       );
       return res.success ? res.data : [];
     },

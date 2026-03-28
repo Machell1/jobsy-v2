@@ -58,7 +58,7 @@ export default function ProfileScreen() {
     {
       icon: "edit",
       label: "Edit Profile",
-      onPress: () => {},
+      onPress: () => router.push("/edit-profile"),
     },
     ...(user.role === "PROVIDER"
       ? [
@@ -75,24 +75,14 @@ export default function ProfileScreen() {
         ]
       : []),
     {
-      icon: "bell",
-      label: "Notifications",
-      onPress: () => {},
-    },
-    {
-      icon: "shield",
-      label: "Privacy & Security",
-      onPress: () => {},
+      icon: "settings",
+      label: "Settings",
+      onPress: () => router.push("/settings"),
     },
     {
       icon: "help-circle",
       label: "Help & Support",
-      onPress: () => {},
-    },
-    {
-      icon: "info",
-      label: "About Jobsy",
-      onPress: () => {},
+      onPress: () => router.push("/help"),
     },
   ];
 
@@ -115,7 +105,7 @@ export default function ProfileScreen() {
         <Text style={styles.userName}>{user.name}</Text>
         <Text style={styles.userEmail}>{user.email}</Text>
         <View style={styles.roleBadge}>
-          <Text style={styles.roleText}>{user.role}</Text>
+          <Text style={styles.roleText}>{user.role.charAt(0) + user.role.slice(1).toLowerCase()}</Text>
         </View>
         {user.parish && (
           <View style={styles.locationRow}>
