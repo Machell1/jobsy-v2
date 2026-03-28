@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jobsyja.app",
-      "buildNumber": "8"
+      "buildNumber": "9"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,14 +28,22 @@
       "expo-router",
       "expo-secure-store",
       "expo-font",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.jobsyja.app",
+          "enableGooglePay": true
+        }
+      ]
     ],
     "extra": {
       "eas": {
         "projectId": "cb14f1f0-7c15-415d-933d-c1568904ce27"
       },
       "apiUrl": "https://api.jobsyja.com",
-      "cloudinaryCloudName": "djylcabbp"
+      "cloudinaryCloudName": "djylcabbp",
+      "stripePublishableKey": ""
     },
     "owner": "jobsy1"
   }

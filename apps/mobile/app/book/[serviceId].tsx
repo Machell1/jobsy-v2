@@ -52,18 +52,16 @@ export default function BookServiceScreen() {
       }
       return res.data;
     },
-    onSuccess: () => {
+    onSuccess: (booking) => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      Alert.alert(
-        "Booking Confirmed",
-        "Your booking has been submitted. The provider will confirm shortly.",
-        [
-          {
-            text: "View Bookings",
-            onPress: () => router.replace("/(tabs)/bookings"),
-          },
-        ]
-      );
+      router.replace({
+        pathname: "/checkout/[bookingId]",
+        params: {
+          bookingId: booking.id,
+          amount: String(Math.round((service?.priceMin ?? 0) * 100)),
+          currency: service?.priceCurrency ?? "JMD",
+        },
+      });
     },
     onError: (error: Error) => {
       Alert.alert("Booking Failed", error.message);

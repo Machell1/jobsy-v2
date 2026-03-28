@@ -132,6 +132,9 @@ importers:
       '@react-native-community/datetimepicker':
         specifier: 8.6.0
         version: 8.6.0(expo@55.0.9)(react-native@0.83.2(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      '@stripe/stripe-react-native':
+        specifier: 0.58.0
+        version: 0.58.0(expo@55.0.9)(react-native@0.83.2(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
       '@tanstack/react-query':
         specifier: ^5.62.0
         version: 5.95.2(react@19.2.0)
@@ -2566,6 +2569,19 @@ packages:
   '@stripe/stripe-js@5.10.0':
     resolution: {integrity: sha512-PTigkxMdMUP6B5ISS7jMqJAKhgrhZwjprDqR1eATtFfh0OpKVNp110xiH+goeVdrJ29/4LeZJR4FaHHWstsu0A==}
     engines: {node: '>=12.16'}
+
+  '@stripe/stripe-react-native@0.58.0':
+    resolution: {integrity: sha512-5JSx/4thMMubVewUZezIfWOrwkeSjAsMjusf1eR5A85MUxmbDer71gXbKSt+hjAuJfhqw4W6F4nCPqsYwPjUZA==}
+    peerDependencies:
+      expo: '>=46.0.9'
+      react: '*'
+      react-native: '*'
+      react-native-webview: '*'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+      react-native-webview:
+        optional: true
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -9933,6 +9949,13 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
 
   '@stripe/stripe-js@5.10.0': {}
+
+  '@stripe/stripe-react-native@0.58.0(expo@55.0.9)(react-native@0.83.2(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      react: 19.2.0
+      react-native: 0.83.2(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.0)
+    optionalDependencies:
+      expo: 55.0.9(@babel/core@7.29.0)(@expo/dom-webview@55.0.3)(@expo/metro-runtime@55.0.7)(expo-router@55.0.8)(react-dom@19.2.0(react@19.2.0))(react-native@0.83.2(@babel/core@7.29.0)(@react-native/metro-config@0.84.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
 
   '@swc/helpers@0.5.15':
     dependencies:
