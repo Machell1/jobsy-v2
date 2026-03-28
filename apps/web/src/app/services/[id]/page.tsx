@@ -69,12 +69,25 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function ImageGallery({ images }: { images: Service['images'] }) {
+function ImageGallery({ images, categorySlug }: { images: Service['images']; categorySlug?: string }) {
+  const CATEGORY_GRADIENTS: Record<string, string> = {
+    'plumbing': 'from-blue-400 to-blue-600', 'electrical': 'from-yellow-400 to-amber-500',
+    'home-cleaning': 'from-teal-400 to-emerald-500', 'beauty-hair': 'from-pink-400 to-rose-500',
+    'landscaping': 'from-green-400 to-emerald-600', 'construction': 'from-orange-400 to-amber-600',
+    'auto-repair': 'from-slate-400 to-gray-600', 'catering': 'from-red-400 to-orange-500',
+    'event-planning': 'from-purple-400 to-violet-500', 'photography': 'from-indigo-400 to-blue-500',
+    'tutoring': 'from-cyan-400 to-sky-500', 'tech-support': 'from-blue-500 to-indigo-600',
+    'fitness-training': 'from-lime-400 to-green-500', 'painting': 'from-yellow-300 to-orange-400',
+    'pet-care': 'from-amber-300 to-yellow-500', 'tailoring': 'from-fuchsia-400 to-pink-500',
+    'moving': 'from-gray-400 to-slate-500', 'other': 'from-emerald-400 to-teal-500',
+  };
+
   if (!images || images.length === 0) {
+    const gradient = CATEGORY_GRADIENTS[categorySlug ?? 'other'] ?? 'from-emerald-400 to-teal-500';
     return (
-      <div className="flex aspect-video items-center justify-center rounded-xl bg-gray-100 text-gray-400">
-        <svg className="h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      <div className={`flex aspect-video items-center justify-center rounded-2xl bg-gradient-to-br ${gradient}`}>
+        <svg className="h-20 w-20 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       </div>
     );
@@ -171,7 +184,7 @@ export default async function ServiceDetailPage({
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-5">
         {/* Left column: images + description */}
         <div className="lg:col-span-3 space-y-8">
-          <ImageGallery images={service.images} />
+          <ImageGallery images={service.images} categorySlug={service.category?.slug} />
 
           {/* Title + rating */}
           <div>
@@ -195,7 +208,7 @@ export default async function ServiceDetailPage({
               {service.category && (
                 <Link
                   href={`/categories/${service.category.slug}`}
-                  className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-[var(--primary)]"
+                  className="rounded-full bg-[var(--primary-light)] px-3 py-1 text-xs font-semibold text-[var(--primary)]"
                 >
                   {service.category.name}
                 </Link>

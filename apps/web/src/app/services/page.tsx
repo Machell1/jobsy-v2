@@ -1,15 +1,14 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 import type { Service, Category } from '@jobsy/shared';
-import { DEFAULT_CATEGORIES, JAMAICA_PARISHES } from '@jobsy/shared';
 import { ServiceCard } from '@/components/ServiceCard';
+import { FilterSidebar } from '@/components/FilterSidebar';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { apiFetch } from '@/lib/api';
 
 export const metadata = {
-  title: 'Browse Services',
-  description:
-    'Search and browse trusted service providers across Jamaica. Filter by category, parish, price, and more.',
+  title: 'Browse Services — Jobsy',
+  description: 'Search and browse trusted service providers across Jamaica. Filter by category, parish, price, and more.',
 };
 
 type ServiceWithRelations = Service & {
@@ -19,12 +18,10 @@ type ServiceWithRelations = Service & {
 
 async function getServices(params: Record<string, string | undefined>) {
   const query = new URLSearchParams();
-  Object.entries(params).forEach(([k, v]) => {
-    if (v) query.set(k, v);
-  });
+  Object.entries(params).forEach(([k, v]) => { if (v) query.set(k, v); });
   const empty = { data: [] as ServiceWithRelations[], pagination: { page: 1, limit: 20, total: 0, pages: 0 } };
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.jobsyja.com';
     const res = await fetch(`${API_URL}/api/services?${query.toString()}`, {
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
@@ -43,154 +40,11 @@ async function getServices(params: Record<string, string | undefined>) {
 
 async function getCategories() {
   try {
-    const res = await apiFetch<Category[]>('/api/services/categories', {
-      next: { revalidate: 600 },
-    });
+    const res = await apiFetch<Category[]>('/api/services/categories', { next: { revalidate: 600 } });
     return res ?? [];
   } catch {
     return [];
   }
-}
-
-function SearchBar({ defaultValue }: { defaultValue?: string }) {
-  return (
-    <form action="/services" method="GET" className="relative">
-      <input
-        type="text"
-        name="q"
-        defaultValue={defaultValue}
-        placeholder="Search services..."
-        className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 pl-11 text-sm outline-none transition-colors focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20"
-      />
-      <svg
-        className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-      </svg>
-    </form>
-  );
-}
-
-function FilterSidebar({
-  categories,
-  current,
-}: {
-  categories: Category[];
-  current: Record<string, string | undefined>;
-}) {
-  const cats = categories.length > 0 ? categories : DEFAULT_CATEGORIES.map((c) => ({ ...c, id: c.slug }));
-
-  return (
-    <aside className="space-y-6">
-      {/* Category filter */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Category</h3>
-        <div className="space-y-1.5">
-          <Link
-            href="/services"
-            className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
-              !current.category ? 'bg-[var(--primary)] text-white' : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            All Categories
-          </Link>
-          {cats.map((cat: any) => {
-            const slug = 'slug' in cat ? cat.slug : cat.name.toLowerCase().replace(/\s+/g, '-');
-            const isActive = current.category === slug;
-            const params = new URLSearchParams();
-            if (current.q) params.set('q', current.q);
-            params.set('category', slug);
-            if (current.sort) params.set('sort', current.sort);
-            return (
-              <Link
-                key={slug}
-                href={`/services?${params.toString()}`}
-                className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
-                  isActive ? 'bg-[var(--primary)] text-white' : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                {cat.name}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Parish filter */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Parish</h3>
-        <select
-          name="parish"
-          defaultValue={current.parish || ''}
-          className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
-          onChange={(e) => {
-            const params = new URLSearchParams(window.location.search);
-            if (e.target.value) params.set('parish', e.target.value);
-            else params.delete('parish');
-            window.location.href = `/services?${params.toString()}`;
-          }}
-        >
-          <option value="">All Parishes</option>
-          {JAMAICA_PARISHES.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Price range */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Price Range (JMD)</h3>
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            name="minPrice"
-            defaultValue={current.minPrice}
-            placeholder="Min"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
-          />
-          <span className="text-gray-400">&ndash;</span>
-          <input
-            type="number"
-            name="maxPrice"
-            defaultValue={current.maxPrice}
-            placeholder="Max"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
-          />
-        </div>
-      </div>
-
-      {/* Sort */}
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Sort By</h3>
-        <select
-          name="sort"
-          defaultValue={current.sort || 'relevance'}
-          className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
-          onChange={(e) => {
-            const params = new URLSearchParams(window.location.search);
-            params.set('sort', e.target.value);
-            window.location.href = `/services?${params.toString()}`;
-          }}
-        >
-          <option value="relevance">Relevance</option>
-          <option value="price_low">Price: Low to High</option>
-          <option value="price_high">Price: High to Low</option>
-          <option value="rating">Highest Rated</option>
-          <option value="newest">Newest</option>
-        </select>
-      </div>
-    </aside>
-  );
 }
 
 function Pagination({
@@ -213,102 +67,88 @@ function Pagination({
     return `/services?${params.toString()}`;
   }
 
+  const pages = [];
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+  for (let i = start; i <= end; i++) pages.push(i);
+
   return (
     <nav className="mt-10 flex items-center justify-center gap-2">
       {currentPage > 1 && (
-        <Link
-          href={pageUrl(currentPage - 1)}
-          className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Previous
+        <Link href={pageUrl(currentPage - 1)} className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          ← Prev
         </Link>
       )}
-      {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-        const page = i + 1;
-        return (
-          <Link
-            key={page}
-            href={pageUrl(page)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              page === currentPage
-                ? 'bg-[var(--primary)] text-white'
-                : 'border border-[var(--border)] text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            {page}
-          </Link>
-        );
-      })}
-      {currentPage < totalPages && (
+      {start > 1 && <span className="text-gray-400 px-2">…</span>}
+      {pages.map((page) => (
         <Link
-          href={pageUrl(currentPage + 1)}
-          className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          key={page}
+          href={pageUrl(page)}
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+            page === currentPage
+              ? 'bg-[var(--primary)] text-white'
+              : 'border border-[var(--border)] text-gray-700 hover:bg-gray-50'
+          }`}
         >
-          Next
+          {page}
+        </Link>
+      ))}
+      {end < totalPages && <span className="text-gray-400 px-2">…</span>}
+      {currentPage < totalPages && (
+        <Link href={pageUrl(currentPage + 1)} className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          Next →
         </Link>
       )}
     </nav>
   );
 }
 
-async function ServiceResults({
-  searchParams,
-}: {
-  searchParams: Record<string, string | undefined>;
-}) {
+async function ServiceResults({ searchParams }: { searchParams: Record<string, string | undefined> }) {
   const [result, categories] = await Promise.all([getServices(searchParams), getCategories()]);
+  const pagination = result.pagination ?? { page: 1, limit: 20, total: 0, pages: 0 };
+  const services = result.data ?? [];
 
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar */}
-      <div className="w-full lg:w-64 shrink-0">
+      <div className="w-full lg:w-60 shrink-0">
         <FilterSidebar categories={categories} current={searchParams} />
       </div>
 
       {/* Results */}
-      <div className="flex-1">
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-sm text-gray-600">
-            {result.pagination.total > 0
-              ? `Showing ${(result.pagination.page - 1) * result.pagination.limit + 1}–${Math.min(
-                  result.pagination.page * result.pagination.limit,
-                  result.pagination.total
-                )} of ${result.pagination.total} services`
+      <div className="flex-1 min-w-0">
+        <div className="mb-5 flex items-center justify-between">
+          <p className="text-sm text-gray-500">
+            {pagination.total > 0
+              ? `${pagination.total} service${pagination.total !== 1 ? 's' : ''} found`
               : 'No services found'}
           </p>
         </div>
 
-        {result.data.length > 0 ? (
+        {services.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {result.data.map((service: any) => (
+            {services.map((service: any) => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
         ) : (
-          <div className="py-16 text-center">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+          <div className="py-20 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+              <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
             <h3 className="mt-4 text-lg font-semibold text-gray-900">No services found</h3>
-            <p className="mt-2 text-gray-600">
-              Try adjusting your filters or search terms.
+            <p className="mt-2 text-gray-500 text-sm max-w-xs mx-auto">
+              Try adjusting your filters or search terms, or{' '}
+              <Link href="/services" className="text-[var(--primary)] hover:underline">clear all filters</Link>.
             </p>
           </div>
         )}
 
         <Pagination
-          currentPage={result.pagination.page}
-          totalPages={result.pagination.pages}
+          currentPage={pagination.page}
+          totalPages={pagination.pages}
           searchParams={searchParams}
         />
       </div>
@@ -324,30 +164,49 @@ export default async function ServicesPage({
   const params = await searchParams;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      {/* Page heading */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Browse Services</h1>
-        <p className="mt-2 text-gray-600">
-          Find and compare service providers across Jamaica
-        </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Page header */}
+      <div className="bg-white border-b border-[var(--border)]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="text-3xl font-bold text-gray-900">Browse Services</h1>
+          <p className="mt-1 text-gray-500">Find and compare service providers across Jamaica</p>
+
+          {/* Search bar */}
+          <form action="/services" method="GET" className="mt-5 flex gap-3 max-w-2xl">
+            <div className="relative flex-1">
+              <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+              <input
+                type="text"
+                name="q"
+                defaultValue={params.q}
+                placeholder="Search services…"
+                className="w-full rounded-xl border border-[var(--border)] pl-10 pr-4 py-3 text-sm outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20 bg-white transition-colors"
+              />
+            </div>
+            <button
+              type="submit"
+              className="rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white hover:bg-[var(--primary-dark)] transition-colors"
+            >
+              Search
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* Search bar */}
-      <div className="mb-8 max-w-xl">
-        <SearchBar defaultValue={params.q} />
+      {/* Content */}
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-20">
+              <LoadingSpinner size="lg" />
+            </div>
+          }
+        >
+          <ServiceResults searchParams={params} />
+        </Suspense>
       </div>
-
-      {/* Content with filters */}
-      <Suspense
-        fallback={
-          <div className="flex justify-center py-20">
-            <LoadingSpinner size="lg" />
-          </div>
-        }
-      >
-        <ServiceResults searchParams={params} />
-      </Suspense>
     </div>
   );
 }
