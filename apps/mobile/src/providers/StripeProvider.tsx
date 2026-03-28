@@ -1,10 +1,10 @@
 import { StripeProvider as NativeStripeProvider } from "@stripe/stripe-react-native";
-import Constants from "expo-constants";
 import type { ReactNode } from "react";
 
-const publishableKey =
-  (Constants.expoConfig?.extra?.stripePublishableKey as string | undefined) ??
-  "";
+// EXPO_PUBLIC_ prefix makes this available at build time via Expo's env convention.
+// Set via EAS secret: eas secret:create --scope project --name STRIPE_PUBLISHABLE_KEY --value pk_live_xxx
+// The eas.json production build profile maps it to EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY.
+const publishableKey = process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "";
 
 interface Props {
   children: ReactNode;
