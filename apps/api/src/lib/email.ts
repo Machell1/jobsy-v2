@@ -89,6 +89,24 @@ export async function sendBookingConfirmation(
 }
 
 /**
+ * Send a claim verification code to a provider.
+ */
+export async function sendClaimCode(to: string, businessName: string, code: string): Promise<void> {
+  await sendEmail({
+    to,
+    subject: 'Claim Your Jobsy Business Profile',
+    html: `
+      <h2>Claim Your Business on Jobsy</h2>
+      <p>Someone is trying to claim the business profile for <strong>${businessName}</strong> on Jobsy.</p>
+      <p>If this is you, use this verification code:</p>
+      <h1 style="letter-spacing:6px;font-size:36px;background:#f3f4f6;padding:16px;border-radius:8px;text-align:center;">${code}</h1>
+      <p>This code expires in 24 hours.</p>
+      <p>If you didn't request this, you can safely ignore this email.</p>
+    `,
+  });
+}
+
+/**
  * Send a welcome email after registration.
  */
 export async function sendWelcomeEmail(to: string, name: string): Promise<void> {

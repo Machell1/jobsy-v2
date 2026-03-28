@@ -20,5 +20,7 @@ router.post('/forgot-password', validate(ForgotPasswordSchema), handlers.forgotP
 router.post('/reset-password', validate(ResetPasswordSchema), handlers.resetPassword);
 router.post('/verify-email', validate(VerifyEmailSchema), handlers.verifyEmail);
 router.get('/me', requireAuth, handlers.getMe);
+router.post('/send-verification-email', requireAuth, handlers.sendVerificationEmail);
+router.get('/verification-status', requireAuth, handlers.getVerificationStatus);
 
 export default router;

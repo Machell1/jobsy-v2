@@ -141,3 +141,21 @@ export async function getMe(req: Request, res: Response): Promise<void> {
     throw error;
   }
 }
+
+export async function sendVerificationEmail(req: Request, res: Response): Promise<void> {
+  try {
+    const result = await authService.sendVerificationEmailCode(req.user!.userId);
+    res.json({ success: true, data: { message: result.message } });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getVerificationStatus(req: Request, res: Response): Promise<void> {
+  try {
+    const status = await authService.getVerificationStatus(req.user!.userId);
+    res.json({ success: true, data: status });
+  } catch (error) {
+    throw error;
+  }
+}

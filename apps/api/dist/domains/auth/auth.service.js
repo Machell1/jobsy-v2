@@ -11,10 +11,13 @@ exports.forgotPassword = forgotPassword;
 exports.resetPassword = resetPassword;
 exports.verifyEmail = verifyEmail;
 exports.getCurrentUser = getCurrentUser;
+exports.sendVerificationEmailCode = sendVerificationEmailCode;
+exports.getVerificationStatus = getVerificationStatus;
 const database_1 = require("@jobsy/database");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const crypto_1 = __importDefault(require("crypto"));
+const email_1 = require("../../lib/email");
 const error_handler_1 = require("../../middleware/error-handler");
 const BCRYPT_ROUNDS = 12;
 const ACCESS_EXPIRY_MINUTES = parseInt(process.env.JWT_ACCESS_EXPIRY_MINUTES ?? '15', 10);
@@ -206,5 +209,49 @@ async function getCurrentUser(userId) {
         throw new error_handler_1.AppError('NOT_FOUND', 404, 'User not found');
     }
     return user;
+}
+async function sendVerificationEmailCode(userId) {
+    const user = await database_1.prisma.user.findUnique({ where: { id: userId } });
+    if (!user)
+        throw new error_handler_1.AppError('NOT_FOUND', 404, 'User not found');
+    if (user.isEmailVerified) {
+        return { message: 'Email is already verified' };
+    }
+    // Check rate limit: max 3 per hour
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const recentCount = await database_1.prisma.emailVerification.count({
+        where: { userId, createdAt: { gte: oneHourAgo } },
+    });
+    if (recentCount >= 3) {
+        throw new error_handler_1.AppError('TOO_MANY_REQUESTS', 429, 'Too many verification emails. Try again later.');
+    }
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    await database_1.prisma.emailVerification.create({
+        data: {
+            userId,
+            code,
+            expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        },
+    });
+    try {
+        await (0, email_1.sendVerificationEmail)(user.email, code);
+    }
+    catch {
+        console.error('[auth] Failed to send verification email');
+    }
+    return { message: 'Verification email sent' };
+}
+async function getVerificationStatus(userId) {
+    const user = await database_1.prisma.user.findUnique({
+        where: { id: userId },
+        select: { isEmailVerified: true, verifiedPhone: true },
+    });
+    if (!user)
+        throw new error_handler_1.AppError('NOT_FOUND', 404, 'User not found');
+    return {
+        isEmailVerified: user.isEmailVerified,
+        isPhoneVerified: user.verifiedPhone,
+        isFullyVerified: user.isEmailVerified && user.verifiedPhone,
+    };
 }
 //# sourceMappingURL=auth.service.js.map

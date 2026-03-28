@@ -41,6 +41,8 @@ exports.forgotPassword = forgotPassword;
 exports.resetPassword = resetPassword;
 exports.verifyEmail = verifyEmail;
 exports.getMe = getMe;
+exports.sendVerificationEmail = sendVerificationEmail;
+exports.getVerificationStatus = getVerificationStatus;
 const authService = __importStar(require("./auth.service"));
 const REFRESH_COOKIE = 'refreshToken';
 const REFRESH_EXPIRY_DAYS = parseInt(process.env.JWT_REFRESH_EXPIRY_DAYS ?? '7', 10);
@@ -174,6 +176,24 @@ async function getMe(req, res) {
             success: true,
             data: user,
         });
+    }
+    catch (error) {
+        throw error;
+    }
+}
+async function sendVerificationEmail(req, res) {
+    try {
+        const result = await authService.sendVerificationEmailCode(req.user.userId);
+        res.json({ success: true, data: { message: result.message } });
+    }
+    catch (error) {
+        throw error;
+    }
+}
+async function getVerificationStatus(req, res) {
+    try {
+        const status = await authService.getVerificationStatus(req.user.userId);
+        res.json({ success: true, data: status });
     }
     catch (error) {
         throw error;

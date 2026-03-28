@@ -9,10 +9,10 @@ const footerLinks = {
     { href: '/pricing', label: 'Advertise with Jobsy' },
   ],
   Providers: [
+    { href: '/claim', label: 'Claim Your Business' },
     { href: '/register?role=provider', label: 'Become a Provider' },
     { href: '/pricing', label: 'Provider Plans' },
     { href: '/dashboard', label: 'Provider Dashboard' },
-    { href: '/help', label: 'Provider Help' },
   ],
   Company: [
     { href: '/about', label: 'About Us' },

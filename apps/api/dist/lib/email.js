@@ -7,6 +7,7 @@ exports.sendEmail = sendEmail;
 exports.sendVerificationEmail = sendVerificationEmail;
 exports.sendPasswordResetEmail = sendPasswordResetEmail;
 exports.sendBookingConfirmation = sendBookingConfirmation;
+exports.sendClaimCode = sendClaimCode;
 exports.sendWelcomeEmail = sendWelcomeEmail;
 const mail_1 = __importDefault(require("@sendgrid/mail"));
 mail_1.default.setApiKey(process.env.SENDGRID_API_KEY);
@@ -71,6 +72,23 @@ async function sendBookingConfirmation(to, details) {
         <li><strong>Total:</strong> ${details.totalPrice}</li>
       </ul>
       <p>You can view and manage your booking in the Jobsy app.</p>
+    `,
+    });
+}
+/**
+ * Send a claim verification code to a provider.
+ */
+async function sendClaimCode(to, businessName, code) {
+    await sendEmail({
+        to,
+        subject: 'Claim Your Jobsy Business Profile',
+        html: `
+      <h2>Claim Your Business on Jobsy</h2>
+      <p>Someone is trying to claim the business profile for <strong>${businessName}</strong> on Jobsy.</p>
+      <p>If this is you, use this verification code:</p>
+      <h1 style="letter-spacing:6px;font-size:36px;background:#f3f4f6;padding:16px;border-radius:8px;text-align:center;">${code}</h1>
+      <p>This code expires in 24 hours.</p>
+      <p>If you didn't request this, you can safely ignore this email.</p>
     `,
     });
 }

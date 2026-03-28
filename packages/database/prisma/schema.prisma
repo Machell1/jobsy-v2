@@ -38,6 +38,7 @@ model User {
   latitude            Float?
   longitude           Float?
   address             String?
+  verifiedPhone       Boolean              @default(false)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
 
@@ -377,4 +378,55 @@ model AdCampaign {
 
   @@index([placement, isActive])
   @@map("ad_campaigns")
+}
+
+// ─── CLAIM YOUR ACCOUNT ─────────────────────────────────
+
+model UnclaimedProvider {
+  id                 String    @id @default(uuid())
+  businessName       String
+  contactName        String?
+  email              String?
+  phone              String?
+  category           String
+  categoryId         String?
+  parish             String
+  address            String?
+  description        String?
+  sourceUrl          String?
+  sourcePlatform     String?
+  isClaimed          Boolean   @default(false)
+  claimedByUserId    String?
+  claimedAt          DateTime?
+  claimCode          String?   @unique
+  claimCodeSentAt    DateTime?
+  claimCodeExpiresAt DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  services           UnclaimedService[]
+
+  @@index([parish])
+  @@index([category])
+  @@index([isClaimed])
+  @@index([email])
+  @@index([phone])
+  @@map("unclaimed_providers")
+}
+
+model UnclaimedService {
+  id                  String            @id @default(uuid())
+  unclaimedProviderId String
+  unclaimedProvider   UnclaimedProvider @relation(fields: [unclaimedProviderId], references: [id], onDelete: Cascade)
+  title               String
+  description         String?
+  priceMin            Float?
+  priceMax            Float?
+  categoryId          String?
+  parish              String
+  tags                String[]
+  createdAt           DateTime          @default(now())
+
+  @@index([unclaimedProviderId])
+  @@map("unclaimed_services")
 }

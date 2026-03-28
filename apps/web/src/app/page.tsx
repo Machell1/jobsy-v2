@@ -342,6 +342,36 @@ function TrustSection() {
   );
 }
 
+function ClaimCTASection() {
+  return (
+    <section className="py-14 md:py-20 bg-white">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 p-8 md:p-12 text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-2">For Service Providers</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Already serving customers in Jamaica?</h2>
+          <p className="mt-3 text-gray-600 max-w-xl mx-auto">
+            We may have already listed your business on Jobsy. Search for your name, verify your identity, and claim your free profile — your services will be ready to go.
+          </p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="/claim"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+            >
+              Claim Your Profile
+            </a>
+            <a
+              href="/register"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Register as a New Provider
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTASection() {
   return (
     <section className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-16 md:py-24">
@@ -389,6 +419,7 @@ export default function HomePage() {
         <CategoriesSection />
       </Suspense>
       <HowItWorksSection />
+      <ClaimCTASection />
       <CTASection />
     </>
   );

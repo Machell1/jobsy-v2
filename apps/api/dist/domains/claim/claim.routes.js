@@ -34,20 +34,17 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const shared_1 = require("@jobsy/shared");
 const auth_1 = require("../../middleware/auth");
-const validate_1 = require("../../middleware/validate");
-const handlers = __importStar(require("./auth.handlers"));
+const handlers = __importStar(require("./claim.handlers"));
 const router = (0, express_1.Router)();
-router.post('/register', (0, validate_1.validate)(shared_1.RegisterSchema), handlers.register);
-router.post('/login', (0, validate_1.validate)(shared_1.LoginSchema), handlers.login);
-router.post('/refresh', handlers.refresh);
-router.post('/logout', auth_1.requireAuth, handlers.logout);
-router.post('/forgot-password', (0, validate_1.validate)(shared_1.ForgotPasswordSchema), handlers.forgotPassword);
-router.post('/reset-password', (0, validate_1.validate)(shared_1.ResetPasswordSchema), handlers.resetPassword);
-router.post('/verify-email', (0, validate_1.validate)(shared_1.VerifyEmailSchema), handlers.verifyEmail);
-router.get('/me', auth_1.requireAuth, handlers.getMe);
-router.post('/send-verification-email', auth_1.requireAuth, handlers.sendVerificationEmail);
-router.get('/verification-status', auth_1.requireAuth, handlers.getVerificationStatus);
+// Public — no auth needed
+router.get('/search', handlers.search);
+router.get('/profile/:id', handlers.getProfile);
+router.post('/request-code', handlers.requestCode);
+router.post('/verify-code', handlers.verifyCode);
+router.post('/complete', handlers.complete);
+// Admin only
+router.get('/stats', auth_1.requireAuth, (0, auth_1.requireRole)('ADMIN'), handlers.getStats);
+router.post('/import', auth_1.requireAuth, (0, auth_1.requireRole)('ADMIN'), handlers.importProviders);
 exports.default = router;
-//# sourceMappingURL=auth.routes.js.map
+//# sourceMappingURL=claim.routes.js.map

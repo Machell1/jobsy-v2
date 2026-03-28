@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import type { RegisterInput, LoginInput } from '@jobsy/shared';
+import { sendVerificationEmail } from '../../lib/email';
 import { AppError } from '../../middleware/error-handler';
 
 const BCRYPT_ROUNDS = 12;
@@ -242,4 +243,52 @@ export async function getCurrentUser(userId: string) {
   }
 
   return user;
+}
+
+export async function sendVerificationEmailCode(userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new AppError('NOT_FOUND', 404, 'User not found');
+  if (user.isEmailVerified) {
+    return { message: 'Email is already verified' };
+  }
+
+  // Check rate limit: max 3 per hour
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+  const recentCount = await prisma.emailVerification.count({
+    where: { userId, createdAt: { gte: oneHourAgo } },
+  });
+  if (recentCount >= 3) {
+    throw new AppError('TOO_MANY_REQUESTS', 429, 'Too many verification emails. Try again later.');
+  }
+
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  await prisma.emailVerification.create({
+    data: {
+      userId,
+      code,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    },
+  });
+
+  try {
+    await sendVerificationEmail(user.email, code);
+  } catch {
+    console.error('[auth] Failed to send verification email');
+  }
+
+  return { message: 'Verification email sent' };
+}
+
+export async function getVerificationStatus(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isEmailVerified: true, verifiedPhone: true },
+  });
+  if (!user) throw new AppError('NOT_FOUND', 404, 'User not found');
+
+  return {
+    isEmailVerified: user.isEmailVerified,
+    isPhoneVerified: user.verifiedPhone,
+    isFullyVerified: user.isEmailVerified && user.verifiedPhone,
+  };
 }
