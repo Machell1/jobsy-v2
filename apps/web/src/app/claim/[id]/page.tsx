@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ClaimProfileClient } from './claim-profile-client';
 
 export const metadata: Metadata = {
-  title: 'Claim Your Profile — Jobsy',
+  title: 'Claim Your Profile - Jobsy',
   description: 'Verify your identity and claim your business profile on Jobsy.',
 };
 

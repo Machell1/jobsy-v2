@@ -117,7 +117,7 @@ export function FilterSidebar({ categories, current }: FilterSidebarProps) {
               placeholder="Min"
               className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm outline-none focus:border-[var(--primary)]"
             />
-            <span className="text-gray-400 shrink-0">–</span>
+            <span className="text-gray-400 shrink-0">-</span>
             <input
               type="number"
               name="maxPrice"

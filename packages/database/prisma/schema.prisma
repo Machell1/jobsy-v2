@@ -395,6 +395,7 @@ model UnclaimedProvider {
   description        String?
   sourceUrl          String?
   sourcePlatform     String?
+  imageUrl           String?
   isClaimed          Boolean   @default(false)
   claimedByUserId    String?
   claimedAt          DateTime?

@@ -8,7 +8,7 @@ import { AdBanner } from '@/components/AdBanner';
 import { apiFetch } from '@/lib/api';
 
 export const metadata = {
-  title: 'Browse Services — Jobsy',
+  title: 'Browse Services - Jobsy',
   description: 'Search and browse trusted service providers across Jamaica. Filter by category, parish, price, and more.',
 };
 

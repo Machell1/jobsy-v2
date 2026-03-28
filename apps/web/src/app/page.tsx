@@ -89,7 +89,7 @@ function HeroSection() {
           </h1>
 
           <p className="mt-6 text-lg md:text-xl text-emerald-100 leading-relaxed max-w-2xl">
-            From home repairs to personal care — book verified professionals in your parish.
+            From home repairs to personal care - book verified professionals in your parish.
           </p>
 
           {/* Search bar */}
@@ -350,7 +350,7 @@ function ClaimCTASection() {
           <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-2">For Service Providers</p>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Already serving customers in Jamaica?</h2>
           <p className="mt-3 text-gray-600 max-w-xl mx-auto">
-            We may have already listed your business on Jobsy. Search for your name, verify your identity, and claim your free profile — your services will be ready to go.
+            We may have already listed your business on Jobsy. Search for your name, verify your identity, and claim your free profile - your services will be ready to go.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <a

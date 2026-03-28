@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ClaimSearch } from './claim-search';
 
 export const metadata: Metadata = {
-  title: 'Claim Your Business — Jobsy',
+  title: 'Claim Your Business - Jobsy',
   description: 'Search for your business on Jobsy and claim your free provider profile. Take control of your listing today.',
 };
 
@@ -17,7 +17,7 @@ export default function ClaimPage() {
             Already listed on Jobsy?
           </h1>
           <p className="mt-4 text-lg text-emerald-100 max-w-2xl mx-auto">
-            We've pre-listed thousands of Jamaican service providers. Search for your business and take control of your profile — it's completely free.
+            We've pre-listed thousands of Jamaican service providers. Search for your business and take control of your profile - it's completely free.
           </p>
         </div>
       </div>
@@ -32,7 +32,7 @@ export default function ClaimPage() {
         <div className="rounded-2xl border border-[var(--border)] bg-white p-8 text-center">
           <h3 className="text-lg font-bold text-gray-900">Don't see your business?</h3>
           <p className="mt-2 text-sm text-gray-600 max-w-md mx-auto">
-            No worries — you can register as a new provider and start listing your services right away.
+            No worries - you can register as a new provider and start listing your services right away.
           </p>
           <a
             href="/register"

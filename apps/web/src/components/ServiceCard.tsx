@@ -126,7 +126,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
               : 'Contact for price'}
             {service.priceMax != null && (
               <span className="font-normal text-gray-400">
-                {' – '}{formatCurrency(service.priceMax, service.priceCurrency ?? 'JMD')}
+                {' - '}{formatCurrency(service.priceMax, service.priceCurrency ?? 'JMD')}
               </span>
             )}
           </div>

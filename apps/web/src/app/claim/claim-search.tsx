@@ -22,6 +22,7 @@ interface Provider {
   category: string;
   parish: string;
   description: string | null;
+  imageUrl: string | null;
   maskedEmail: string | null;
   maskedPhone: string | null;
   serviceCount: number;
@@ -119,7 +120,14 @@ export function ClaimSearch() {
             <div className="grid gap-4 sm:grid-cols-2">
               {results.map((p) => (
                 <div key={p.id} className="rounded-xl border border-[var(--border)] bg-white p-5 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    {p.imageUrl ? (
+                      <img src={p.imageUrl} alt={p.businessName} className="h-12 w-12 shrink-0 rounded-lg object-cover" />
+                    ) : (
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-lg font-bold text-emerald-700">
+                        {p.businessName.charAt(0)}
+                      </div>
+                    )}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 truncate">{p.businessName}</h3>
                       <div className="mt-1 flex flex-wrap gap-2">
@@ -127,21 +135,18 @@ export function ClaimSearch() {
                           {p.category}
                         </span>
                         <span className="text-xs text-gray-500">{p.parish}</span>
+                        <span className="text-xs text-gray-400">{p.serviceCount} service{p.serviceCount !== 1 ? 's' : ''}</span>
                       </div>
                     </div>
-                    <span className="shrink-0 text-xs text-gray-400">{p.serviceCount} service{p.serviceCount !== 1 ? 's' : ''}</span>
                   </div>
                   {p.description && (
                     <p className="mt-2 text-xs text-gray-500 line-clamp-2">{p.description}</p>
-                  )}
-                  {p.maskedEmail && (
-                    <p className="mt-2 text-xs text-gray-400">Email on file: {p.maskedEmail}</p>
                   )}
                   <Link
                     href={`/claim/${p.id}`}
                     className="mt-3 block rounded-lg border border-[var(--primary)] py-2 text-center text-sm font-semibold text-[var(--primary)] hover:bg-emerald-50 transition-colors"
                   >
-                    Claim This Profile
+                    View Profile
                   </Link>
                 </div>
               ))}

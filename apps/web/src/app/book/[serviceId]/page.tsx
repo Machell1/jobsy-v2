@@ -101,7 +101,7 @@ export default function BookServicePage() {
         {/* Booking form */}
         <div className="lg:col-span-3">
           <h1 className="text-2xl font-bold text-gray-900">Request Booking</h1>
-          <p className="mt-1 text-sm text-gray-500">Free to book — the provider will confirm your request.</p>
+          <p className="mt-1 text-sm text-gray-500">Free to book - the provider will confirm your request.</p>
 
           {bookingId ? (
             <div className="mt-8 rounded-2xl bg-white p-8 shadow-sm text-center border border-[var(--border)]">
@@ -214,7 +214,7 @@ export default function BookServicePage() {
                 disabled={isSubmitting}
                 className="flex w-full items-center justify-center rounded-lg bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
               >
-                {isSubmitting ? <LoadingSpinner size="sm" /> : 'Send Booking Request — Free'}
+                {isSubmitting ? <LoadingSpinner size="sm" /> : 'Send Booking Request - Free'}
               </button>
               <p className="text-center text-xs text-gray-400">No payment required. The provider will confirm your booking.</p>
             </form>
@@ -233,7 +233,7 @@ export default function BookServicePage() {
                   <span className="text-gray-500">Price</span>
                   <span className="font-medium text-[var(--primary)]">
                     J${service.priceMin.toLocaleString()}
-                    {service.priceMax ? ` – J$${service.priceMax.toLocaleString()}` : ''}
+                    {service.priceMax ? ` - J$${service.priceMax.toLocaleString()}` : ''}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">

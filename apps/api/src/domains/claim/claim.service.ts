@@ -85,6 +85,7 @@ export async function searchUnclaimed(filters: SearchFilters) {
     category: p.category,
     parish: p.parish,
     description: p.description,
+    imageUrl: p.imageUrl,
     maskedEmail: maskEmail(p.email),
     maskedPhone: maskPhone(p.phone),
     serviceCount: p._count.services,
@@ -118,6 +119,10 @@ export async function getUnclaimedProfile(id: string) {
     parish: provider.parish,
     address: provider.address,
     description: provider.description,
+    imageUrl: provider.imageUrl,
+    email: provider.email,
+    phone: provider.phone,
+    sourceUrl: provider.sourceUrl,
     maskedEmail: maskEmail(provider.email),
     maskedPhone: maskPhone(provider.phone),
     services: provider.services.map((s) => ({
@@ -411,6 +416,7 @@ interface ImportEntry {
   description?: string;
   sourceUrl?: string;
   sourcePlatform?: string;
+  imageUrl?: string;
   services?: Array<{
     title: string;
     description?: string;
@@ -447,6 +453,7 @@ export async function bulkImport(entries: ImportEntry[]) {
           description: entry.description,
           sourceUrl: entry.sourceUrl,
           sourcePlatform: entry.sourcePlatform,
+          imageUrl: entry.imageUrl,
         },
       });
 

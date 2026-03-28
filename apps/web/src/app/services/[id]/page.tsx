@@ -292,7 +292,7 @@ export default async function ServiceDetailPage({
               </Link>
 
               <p className="mt-3 text-center text-xs text-gray-500">
-                Free to book — no payment required upfront
+                Free to book - no payment required upfront
               </p>
             </div>
 

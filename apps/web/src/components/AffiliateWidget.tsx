@@ -54,7 +54,7 @@ export function AffiliateWidget({ category }: AffiliateWidgetProps) {
           </a>
         ))}
       </div>
-      <p className="mt-3 text-[10px] text-gray-400 text-center">Affiliate links — Jobsy may earn a commission</p>
+      <p className="mt-3 text-[10px] text-gray-400 text-center">Affiliate links - Jobsy may earn a commission</p>
     </div>
   );
 }

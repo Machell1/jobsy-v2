@@ -76,6 +76,7 @@ async function searchUnclaimed(filters) {
         category: p.category,
         parish: p.parish,
         description: p.description,
+        imageUrl: p.imageUrl,
         maskedEmail: maskEmail(p.email),
         maskedPhone: maskPhone(p.phone),
         serviceCount: p._count.services,
@@ -104,6 +105,10 @@ async function getUnclaimedProfile(id) {
         parish: provider.parish,
         address: provider.address,
         description: provider.description,
+        imageUrl: provider.imageUrl,
+        email: provider.email,
+        phone: provider.phone,
+        sourceUrl: provider.sourceUrl,
         maskedEmail: maskEmail(provider.email),
         maskedPhone: maskPhone(provider.phone),
         services: provider.services.map((s) => ({
@@ -352,6 +357,7 @@ async function bulkImport(entries) {
                     description: entry.description,
                     sourceUrl: entry.sourceUrl,
                     sourcePlatform: entry.sourcePlatform,
+                    imageUrl: entry.imageUrl,
                 },
             });
             if (entry.services?.length) {

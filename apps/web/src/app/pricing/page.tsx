@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Pricing — Jobsy',
+  title: 'Pricing - Jobsy',
   description: 'Free for customers. Affordable plans for providers who want to grow faster. No commissions, ever.',
 };
 
@@ -144,11 +144,11 @@ export default function PricingPage() {
           <h3 className="text-xl font-bold text-gray-900 mb-2">Why no commission?</h3>
           <p className="text-gray-600 max-w-2xl mx-auto text-sm leading-relaxed">
             Jobsy is built on trust. Taking a cut of every job creates friction and discourages providers from using the platform.
-            Instead, providers who want extra visibility pay a flat subscription — and everyone else uses Jobsy for free, forever.
+            Instead, providers who want extra visibility pay a flat subscription - and everyone else uses Jobsy for free, forever.
           </p>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
             {[
-              { label: 'No commission', detail: '0% taken from any booking — providers keep 100%' },
+              { label: 'No commission', detail: '0% taken from any booking - providers keep 100%' },
               { label: 'No payment upfront', detail: 'Customers request bookings for free, pay directly to the provider' },
               { label: 'Cancel anytime', detail: 'Month-to-month subscriptions with no lock-in period' },
             ].map((item) => (
