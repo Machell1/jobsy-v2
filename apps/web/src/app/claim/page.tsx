@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ClaimSearch } from './claim-search';
+import { ClaimCodeInput } from './claim-code-input';
 
 export const metadata: Metadata = {
   title: 'Claim Your Business - Jobsy',
@@ -20,6 +21,11 @@ export default function ClaimPage() {
             We've pre-listed thousands of Jamaican service providers. Search for your business and take control of your profile - it's completely free.
           </p>
         </div>
+      </div>
+
+      {/* Claim Code Section */}
+      <div className="mx-auto max-w-4xl px-4 pt-10 sm:px-6 lg:px-8">
+        <ClaimCodeInput />
       </div>
 
       {/* Search + Results */}

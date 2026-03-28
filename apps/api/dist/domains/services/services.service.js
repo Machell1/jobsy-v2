@@ -60,7 +60,7 @@ async function listServices(filters) {
                 category: true,
                 images: { orderBy: { sortOrder: 'asc' } },
                 provider: {
-                    select: { id: true, name: true, avatarUrl: true },
+                    select: { id: true, name: true, avatarUrl: true, verificationStatus: true },
                 },
                 reviews: {
                     select: { rating: true },

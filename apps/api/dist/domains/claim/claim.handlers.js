@@ -39,6 +39,7 @@ exports.requestCode = requestCode;
 exports.verifyCode = verifyCode;
 exports.complete = complete;
 exports.getStats = getStats;
+exports.claimWithCode = claimWithCode;
 exports.importProviders = importProviders;
 const service = __importStar(require("./claim.service"));
 async function search(req, res, next) {
@@ -118,6 +119,23 @@ async function complete(req, res, next) {
 async function getStats(req, res, next) {
     try {
         const data = await service.getClaimStats();
+        res.json({ success: true, data });
+    }
+    catch (err) {
+        next(err);
+    }
+}
+async function claimWithCode(req, res, next) {
+    try {
+        const { code, password, name } = req.body;
+        if (!code || !password) {
+            res.status(400).json({
+                success: false,
+                error: { code: 'BAD_REQUEST', message: 'code and password are required' },
+            });
+            return;
+        }
+        const data = await service.claimWithCode(code, password, name);
         res.json({ success: true, data });
     }
     catch (err) {

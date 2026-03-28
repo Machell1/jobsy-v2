@@ -402,6 +402,71 @@ export async function getClaimStats() {
 }
 
 // ---------------------------------------------------------------------------
+// Claim with code (direct claim from email/DM)
+// ---------------------------------------------------------------------------
+
+export async function claimWithCode(code: string, password: string, name?: string) {
+  const provider = await prisma.unclaimedProvider.findUnique({
+    where: { claimCode: code },
+  });
+
+  if (!provider) {
+    throw new AppError('NOT_FOUND', 404, 'Invalid claim code');
+  }
+
+  if (!provider.claimedByUserId) {
+    throw new AppError('BAD_REQUEST', 400, 'This profile has not been migrated yet');
+  }
+
+  const user = await prisma.user.findUnique({ where: { id: provider.claimedByUserId } });
+  if (!user) {
+    throw new AppError('NOT_FOUND', 404, 'Linked account not found');
+  }
+
+  // Check if already verified (already claimed)
+  if (user.verificationStatus === 'APPROVED') {
+    throw new AppError('BAD_REQUEST', 400, 'This profile has already been claimed');
+  }
+
+  const passwordHash = await bcrypt.hash(password, 12);
+
+  // Update user: set real password, verify, approve
+  const updated = await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      passwordHash,
+      name: name || user.name,
+      isEmailVerified: true,
+      verificationStatus: 'APPROVED',
+    },
+    select: {
+      id: true, email: true, name: true, role: true, phone: true,
+      parish: true, bio: true, isEmailVerified: true, createdAt: true,
+    },
+  });
+
+  // Clear the claim code (single use)
+  await prisma.unclaimedProvider.update({
+    where: { id: provider.id },
+    data: { claimCode: null, claimedAt: new Date() },
+  });
+
+  // Generate auth tokens
+  const accessToken = signAccessToken(updated.id, updated.role);
+  const refreshTokenValue = generateRefreshToken();
+
+  await prisma.refreshToken.create({
+    data: {
+      token: refreshTokenValue,
+      userId: updated.id,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    },
+  });
+
+  return { user: updated, accessToken, refreshToken: refreshTokenValue };
+}
+
+// ---------------------------------------------------------------------------
 // Bulk import (admin)
 // ---------------------------------------------------------------------------
 

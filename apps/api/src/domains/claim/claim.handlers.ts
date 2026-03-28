@@ -85,6 +85,23 @@ export async function getStats(req: Request, res: Response, next: NextFunction) 
   }
 }
 
+export async function claimWithCode(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { code, password, name } = req.body;
+    if (!code || !password) {
+      res.status(400).json({
+        success: false,
+        error: { code: 'BAD_REQUEST', message: 'code and password are required' },
+      });
+      return;
+    }
+    const data = await service.claimWithCode(code, password, name);
+    res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function importProviders(req: Request, res: Response, next: NextFunction) {
   try {
     const entries = req.body;

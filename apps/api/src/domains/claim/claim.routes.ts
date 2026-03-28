@@ -10,6 +10,7 @@ router.get('/profile/:id', handlers.getProfile);
 router.post('/request-code', handlers.requestCode);
 router.post('/verify-code', handlers.verifyCode);
 router.post('/complete', handlers.complete);
+router.post('/claim-with-code', handlers.claimWithCode);
 
 // Admin only
 router.get('/stats', requireAuth, requireRole('ADMIN'), handlers.getStats);

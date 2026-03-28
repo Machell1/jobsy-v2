@@ -62,7 +62,7 @@ function StarRating({ rating, count }: { rating?: number | null; count: number }
 
 interface ServiceCardProps {
   service: Service & {
-    provider?: { name: string };
+    provider?: { name: string; verificationStatus?: string };
     category?: { name: string; slug: string };
   };
 }
@@ -98,6 +98,13 @@ export function ServiceCard({ service }: ServiceCardProps) {
         {service.category?.name && (
           <span className="absolute top-3 left-3 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-0.5 text-xs font-semibold text-gray-800 shadow-sm">
             {service.category.name}
+          </span>
+        )}
+
+        {/* Unverified badge */}
+        {service.provider?.verificationStatus !== 'APPROVED' && (
+          <span className="absolute top-3 right-3 rounded-full bg-orange-100/90 backdrop-blur-sm px-2.5 py-0.5 text-xs font-medium text-orange-700 shadow-sm">
+            Unverified
           </span>
         )}
       </div>

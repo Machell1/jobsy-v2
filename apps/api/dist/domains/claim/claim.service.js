@@ -9,6 +9,7 @@ exports.requestClaimCode = requestClaimCode;
 exports.verifyClaimCode = verifyClaimCode;
 exports.completeClaim = completeClaim;
 exports.getClaimStats = getClaimStats;
+exports.claimWithCode = claimWithCode;
 exports.bulkImport = bulkImport;
 const database_1 = require("@jobsy/database");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -332,6 +333,59 @@ async function getClaimStats() {
         },
     });
     return { totalUnclaimed, totalClaimed, claimRate: `${claimRate}%`, recentClaims };
+}
+// ---------------------------------------------------------------------------
+// Claim with code (direct claim from email/DM)
+// ---------------------------------------------------------------------------
+async function claimWithCode(code, password, name) {
+    const provider = await database_1.prisma.unclaimedProvider.findUnique({
+        where: { claimCode: code },
+    });
+    if (!provider) {
+        throw new error_handler_1.AppError('NOT_FOUND', 404, 'Invalid claim code');
+    }
+    if (!provider.claimedByUserId) {
+        throw new error_handler_1.AppError('BAD_REQUEST', 400, 'This profile has not been migrated yet');
+    }
+    const user = await database_1.prisma.user.findUnique({ where: { id: provider.claimedByUserId } });
+    if (!user) {
+        throw new error_handler_1.AppError('NOT_FOUND', 404, 'Linked account not found');
+    }
+    // Check if already verified (already claimed)
+    if (user.verificationStatus === 'APPROVED') {
+        throw new error_handler_1.AppError('BAD_REQUEST', 400, 'This profile has already been claimed');
+    }
+    const passwordHash = await bcryptjs_1.default.hash(password, 12);
+    // Update user: set real password, verify, approve
+    const updated = await database_1.prisma.user.update({
+        where: { id: user.id },
+        data: {
+            passwordHash,
+            name: name || user.name,
+            isEmailVerified: true,
+            verificationStatus: 'APPROVED',
+        },
+        select: {
+            id: true, email: true, name: true, role: true, phone: true,
+            parish: true, bio: true, isEmailVerified: true, createdAt: true,
+        },
+    });
+    // Clear the claim code (single use)
+    await database_1.prisma.unclaimedProvider.update({
+        where: { id: provider.id },
+        data: { claimCode: null, claimedAt: new Date() },
+    });
+    // Generate auth tokens
+    const accessToken = signAccessToken(updated.id, updated.role);
+    const refreshTokenValue = generateRefreshToken();
+    await database_1.prisma.refreshToken.create({
+        data: {
+            token: refreshTokenValue,
+            userId: updated.id,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+    });
+    return { user: updated, accessToken, refreshToken: refreshTokenValue };
 }
 async function bulkImport(entries) {
     // Build category lookup

@@ -43,6 +43,7 @@ router.get('/profile/:id', handlers.getProfile);
 router.post('/request-code', handlers.requestCode);
 router.post('/verify-code', handlers.verifyCode);
 router.post('/complete', handlers.complete);
+router.post('/claim-with-code', handlers.claimWithCode);
 // Admin only
 router.get('/stats', auth_1.requireAuth, (0, auth_1.requireRole)('ADMIN'), handlers.getStats);
 router.post('/import', auth_1.requireAuth, (0, auth_1.requireRole)('ADMIN'), handlers.importProviders);
