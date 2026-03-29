@@ -10,7 +10,7 @@ import { apiFetch } from '@/lib/api';
 
 async function getProvider(id: string): Promise<User | null> {
   try {
-    return await apiFetch<User>(`/api/providers/${id}`, {
+    return await apiFetch<User>(`/api/users/${id}`, {
       next: { revalidate: 120 },
     });
   } catch {
