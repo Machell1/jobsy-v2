@@ -109,7 +109,7 @@ async function getService(id) {
             category: true,
             images: { orderBy: { sortOrder: 'asc' } },
             provider: {
-                select: { id: true, name: true, avatarUrl: true, bio: true, parish: true },
+                select: { id: true, name: true, avatarUrl: true, bio: true, parish: true, phone: true, email: true, verificationStatus: true },
             },
             reviews: {
                 where: { isHidden: false },

@@ -128,10 +128,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
         <div className="mt-3 flex items-center justify-between">
           <div className="text-sm font-bold text-[var(--primary)]">
-            {service.priceMin != null
+            {service.priceMin != null && service.priceMin > 0
               ? formatCurrency(service.priceMin, service.priceCurrency ?? 'JMD')
               : 'Contact for price'}
-            {service.priceMax != null && (
+            {service.priceMax != null && service.priceMax > 0 && service.priceMin > 0 && (
               <span className="font-normal text-gray-400">
                 {' - '}{formatCurrency(service.priceMax, service.priceCurrency ?? 'JMD')}
               </span>

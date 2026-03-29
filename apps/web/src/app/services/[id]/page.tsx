@@ -273,15 +273,21 @@ export default async function ServiceDetailPage({
             {/* Price card */}
             <div className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-sm">
               <div className="mb-4">
-                <span className="text-2xl font-bold text-gray-900">
-                  {formatCurrency(service.priceMin, service.priceCurrency)}
-                </span>
-                {service.priceMax && (
-                  <span className="text-gray-500">
-                    {' '}&ndash; {formatCurrency(service.priceMax, service.priceCurrency)}
-                  </span>
+                {service.priceMin > 0 ? (
+                  <>
+                    <span className="text-2xl font-bold text-gray-900">
+                      {formatCurrency(service.priceMin, service.priceCurrency)}
+                    </span>
+                    {service.priceMax && service.priceMax > 0 && (
+                      <span className="text-gray-500">
+                        {' '}- {formatCurrency(service.priceMax, service.priceCurrency)}
+                      </span>
+                    )}
+                    <span className="ml-1 text-sm text-gray-500">/ {service.priceUnit.replace('_', ' ')}</span>
+                  </>
+                ) : (
+                  <span className="text-2xl font-bold text-gray-900">Contact for price</span>
                 )}
-                <span className="ml-1 text-sm text-gray-500">/ {service.priceUnit.replace('_', ' ')}</span>
               </div>
 
               <Link
@@ -329,6 +335,23 @@ export default async function ServiceDetailPage({
                 </Link>
                 {service.provider.bio && (
                   <p className="mt-3 text-sm text-gray-600 line-clamp-3">{service.provider.bio}</p>
+                )}
+                {/* Contact info */}
+                {(service.provider.phone || service.provider.email) && (
+                  <div className="mt-3 space-y-1.5 border-t border-gray-100 pt-3">
+                    {service.provider.phone && (
+                      <a href={`tel:${service.provider.phone}`} className="flex items-center gap-2 text-sm text-[var(--primary)] hover:underline">
+                        <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                        {service.provider.phone}
+                      </a>
+                    )}
+                    {service.provider.email && !service.provider.email.includes('@unclaimed.') && (
+                      <a href={`mailto:${service.provider.email}`} className="flex items-center gap-2 text-sm text-[var(--primary)] hover:underline">
+                        <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        {service.provider.email}
+                      </a>
+                    )}
+                  </div>
                 )}
                 <Link
                   href={`/providers/${service.provider.id}`}
