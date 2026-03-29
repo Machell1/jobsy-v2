@@ -11,12 +11,17 @@ export const metadata: Metadata = {
   description:
     'Find and book trusted local service providers across Jamaica. From home repairs to personal care, Jobsy connects you with skilled professionals.',
   keywords: ['Jamaica', 'services', 'marketplace', 'booking', 'local professionals'],
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: "Jobsy - Jamaica's Service Marketplace",
     description:
       'Find and book trusted local service providers across Jamaica.',
     type: 'website',
     locale: 'en_JM',
+    images: ['/logo.png'],
   },
 };
 

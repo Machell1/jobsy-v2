@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
 
 const navLinks = [
@@ -19,8 +20,9 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-[var(--primary)]">
-          Jobsy
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/logo.png" alt="Jobsy" width={36} height={36} className="rounded-full" />
+          <span className="text-2xl font-bold text-[var(--primary)]">Jobsy</span>
         </Link>
 
         {/* Desktop nav */}

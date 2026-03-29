@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const footerLinks = {
   Platform: [
@@ -35,8 +36,9 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="text-2xl font-bold text-[var(--primary)]">
-              Jobsy
+            <Link href="/" className="flex items-center gap-2">
+              <Image src="/logo.png" alt="Jobsy" width={32} height={32} className="rounded-full" />
+              <span className="text-2xl font-bold text-[var(--primary)]">Jobsy</span>
             </Link>
             <p className="mt-3 text-sm text-gray-600">
               Jamaica&apos;s premier marketplace connecting you with trusted local service providers.
